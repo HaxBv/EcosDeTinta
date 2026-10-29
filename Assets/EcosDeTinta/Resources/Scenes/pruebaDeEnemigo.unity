@@ -2115,6 +2115,7 @@ GameObject:
   - component: {fileID: 1924111886}
   - component: {fileID: 1924111892}
   - component: {fileID: 1924111890}
+  - component: {fileID: 1924111893}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2263,6 +2264,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1924111893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924111885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7edb6428f944904d8d382dd863b6438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vida
+  vidaMaxima: 100
+  vidaActual: 0
+  alMorir:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1990418602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,6 +2294,8 @@ GameObject:
   - component: {fileID: 1990418605}
   - component: {fileID: 1990418604}
   - component: {fileID: 1990418603}
+  - component: {fileID: 1990418609}
+  - component: {fileID: 1990418608}
   m_Layer: 0
   m_Name: EnemigoPrueba
   m_TagString: Untagged
@@ -2394,6 +2414,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1990418608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990418602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7edb6428f944904d8d382dd863b6438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vida
+  vidaMaxima: 100
+  vidaActual: 0
+  alMorir:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1990418609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990418602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36592def6e3c33048a638655983b2fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AtaquePorContacto
+  danio: 10
+  tiempoEntreAtaques: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
