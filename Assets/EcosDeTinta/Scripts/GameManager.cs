@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("Player References")]
-    public PlayerController PlayerController;
+    public MovementController PlayerController;
     public BeatemupCamera FirstPersonCameraController;
     private void Awake()
     {

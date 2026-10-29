@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f19be6471db3c41810d5b8a1c89705, type: 3}
+  m_Name: Maximwolf
+  m_EditorClassIdentifier: Assembly-CSharp::FormData
+  formName: Maximwolf
+  formSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  animator: {fileID: 0}
+  walkSpeed: 4
+  sprintSpeed: 10
+  acceleration: 35
+  jumpHeight: 3
+  attackType: 0
+  attackDamage: 10
+  speedAttack: 0.65
+  attackBoxSize: {x: 4, y: 1, z: 4}
+  attackOffset: {x: 2, y: 0, z: 0}
+  projectileSprite: {fileID: 0}
+  projectileSpeed: 10
+  projectileLifetime: 2
+  projectileColliderSize: {x: 0.5, y: 0.5, z: 0.5}
+  health: 100
+  defense: 10

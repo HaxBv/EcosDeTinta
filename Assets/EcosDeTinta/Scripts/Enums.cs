@@ -7,3 +7,8 @@ public enum SoundType
     SFX,
     UI,
 }
+public enum AttackType
+{
+    Melee,
+    Ranged
+}
