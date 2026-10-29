@@ -3,19 +3,20 @@ using UnityEngine.Events;
 
 public class Vida : MonoBehaviour
 {
+
     [Header("Vida")]
     [SerializeField] private float vidaMaxima = 100f;
-
-    [SerializeField] private float vidaActual;
 
     [Header("Eventos")]
     [SerializeField] private UnityEvent alMorir;
 
-    private bool muerto = false;
+    private float vidaActual;
+    private bool muerto;
 
-    void Awake()
+    void OnEnable()
     {
         vidaActual = vidaMaxima;
+        muerto = false;
     }
 
     public void RecibirDanio(float cantidad)
@@ -25,12 +26,9 @@ public class Vida : MonoBehaviour
             return;
         }
 
-        vidaActual -= cantidad;
-
-        vidaActual = Mathf.Clamp(
-            vidaActual,
+        vidaActual = Mathf.Max(
             0f,
-            vidaMaxima
+            vidaActual - cantidad
         );
 
         Debug.Log(
@@ -55,12 +53,12 @@ public class Vida : MonoBehaviour
         }
 
         vidaActual = Mathf.Min(
-            vidaActual + cantidad,
-            vidaMaxima
+            vidaMaxima,
+            vidaActual + cantidad
         );
     }
 
-    void Morir()
+    private void Morir()
     {
         if (muerto)
         {
@@ -69,9 +67,7 @@ public class Vida : MonoBehaviour
 
         muerto = true;
 
-        Debug.Log(
-            gameObject.name + " ha muerto."
-        );
+        Debug.Log(gameObject.name + " murió.");
 
         alMorir?.Invoke();
     }
