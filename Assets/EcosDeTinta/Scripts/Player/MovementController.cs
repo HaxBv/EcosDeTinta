@@ -156,6 +156,12 @@ public class MovementController : MonoBehaviour
 
     private void UpdateSprintAndStamina(float deltaTime)
     {
+        if (ShouldStopHorizontalMovement)
+        {
+            SetSprinting(false);
+            return;
+        }
+
         if (sprintExhausted)
         {
             SetSprinting(false);
@@ -168,6 +174,12 @@ public class MovementController : MonoBehaviour
             return;
         }
 
+        bool isRunning =
+    !ShouldStopHorizontalMovement &&
+    isSprinting &&
+    moveInput.sqrMagnitude > 0.01f;
+
+        characterAnimator.SetBool(RunningHash, isRunning);
         bool hasMovementInput = moveInput.sqrMagnitude > 0.01f;
         bool canSprint =
             sprintHeld &&

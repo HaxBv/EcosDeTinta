@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f19be6471db3c41810d5b8a1c89705, type: 3}
   m_Name: InkMan
   m_EditorClassIdentifier: Assembly-CSharp::FormData
-  formName: InkMan
+  formName: Inkman
   formSprite: {fileID: 658911018085686238, guid: ce69759bc96c22e4aa2ab8390bcdbca8, type: 3}
   animator: {fileID: 9100000, guid: f5e70b1e0fb1c2845b814205c6fdc99e, type: 2}
   walkSpeed: 4
