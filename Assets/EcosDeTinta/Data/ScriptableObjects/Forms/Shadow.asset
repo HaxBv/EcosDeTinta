@@ -25,8 +25,8 @@ MonoBehaviour:
   attackType: 0
   attackDamage: 12
   speedAttack: 0.6
-  attackBoxSize: {x: 5, y: 1, z: 3}
-  attackOffset: {x: 2, y: -0.6, z: 0}
+  attackBoxSize: {x: 4, y: 1.5, z: 4}
+  attackOffset: {x: 1, y: -0.3, z: 0}
   projectileSprite: {fileID: 0}
   projectileSpeed: 10
   projectileLifetime: 2

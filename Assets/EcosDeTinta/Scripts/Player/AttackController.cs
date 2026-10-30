@@ -112,7 +112,7 @@ public class AttackController : MonoBehaviour
         Debug.Log("[AttackController] Animation Event recibido; collider reiniciado.", this);
 
     }
-
+    
     private IEnumerator HitboxRoutine()
     {
         // Permite que Unity registre el apagado antes de reactivarlo.
@@ -163,7 +163,19 @@ public class AttackController : MonoBehaviour
             $"Ataque de {activeAttackForm.FormName} detectó: {other.name}",
             other
         );
+        EnemyController enemy = other.GetComponentInParent<EnemyController>();
 
+        if (enemy != null)
+        {
+            enemy.TakeDamage(
+                activeAttackForm.AttackDamage,
+                transform.root.position
+            );
+
+            Debug.Log($"El jugador hizo {activeAttackForm.AttackDamage} de daño a {enemy.name}.");
+        }
+
+        TargetHit?.Invoke(other, activeAttackForm.AttackDamage);
         TargetHit?.Invoke(other, activeAttackForm.AttackDamage);
     }
     public void CancelAttack()

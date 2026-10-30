@@ -3,59 +3,122 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour
 {
-    public enum AttackType
-    {
-        Melee,
-        Ranged
-    }
+    public enum AttackType { Melee, Ranged }
 
     private static readonly int AttackHash = Animator.StringToHash("Attack");
+    private static readonly int WalkHash = Animator.StringToHash("Walk");
 
-    [Header("Tipo y detección")]
+    [Header("Ataque")]
     [SerializeField] private AttackType attackType;
-    [SerializeField] private Transform player;
-    [SerializeField] private float detectionRange = 8f;
-    [SerializeField] private float attackRange = 1.5f;
-    [SerializeField] private float attackCooldown = 1.5f;
-
-    [Header("Vida y ataque")]
-    [SerializeField] private float maxHealth = 50f;
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private Animator animator;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-
-    [Header("Hitbox de melee")]
     [SerializeField] private BoxCollider meleeHitbox;
-    [SerializeField] private Vector3 hitboxSize = new Vector3(1.2f, 1f, 1f);
-    [SerializeField] private Vector3 hitboxOffset = new Vector3(0.8f, 0.5f, 0f);
+    [SerializeField] private Vector3 meleeHitboxOffset = new Vector3(0.8f, 0.5f, 0f);
+
+    [Header("Vida")]
+    [SerializeField] private float maxHealth = 50f;
+    [SerializeField] private float currentHealth;
+
+    [Header("Aturdimiento")]
+    [SerializeField] private float stunDuration = 1f;
+
+    [Header("Seguimiento")]
+    [SerializeField] private float followSpeed = 3f;
 
     [Header("Daño recibido")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float knockbackDistance = 1.2f;
     [SerializeField] private float knockbackHeight = 0.5f;
     [SerializeField] private float knockbackDuration = 0.25f;
     [SerializeField] private float redFlashDuration = 0.2f;
+    [SerializeField] private float knockbackHorizontalForce = 4f;
+    [SerializeField] private float knockbackUpwardForce = 2.5f;
+    private Rigidbody body;
+    private Transform player;
 
-    private float currentHealth;
-    private float nextAttackTime;
+    private Quaternion initialRotation;
+    private Quaternion targetRotation;
     private int facingDirection = 1;
+
     private bool isAttacking;
     private bool isDead;
+    private bool isStunned;
+    private bool playerInAttackRange;
 
+    private float originalAnimatorSpeed;
     private Color originalColor;
+
+    private Coroutine stunRoutine;
     private Coroutine knockbackRoutine;
     private Coroutine flashRoutine;
 
-    private readonly HashSet<Collider> hitTargets = new HashSet<Collider>();
+    private readonly HashSet<PlayerStats> hitPlayers = new HashSet<PlayerStats>();
 
-    // El sistema de vida del jugador podrá escuchar este evento.
     public event Action<Collider, float> TargetHit;
 
     public float CurrentHealth => currentHealth;
+    [Header("Muerte")]
+    [SerializeField] private int deathFlashCount = 4;
+    [SerializeField] private float deathFlashInterval = 0.08f;
 
+    private ObjectPooling objectPool;
+    private Coroutine deathRoutine;
+
+    public event Action<EnemyController> ReturnedToPool;
+
+    public void ConfigureForSpawn(Transform playerTarget, ObjectPooling pool)
+    {
+        player = playerTarget;
+        objectPool = pool;
+    }
+
+    private void OnEnable()
+    {
+        currentHealth = maxHealth;
+
+        isDead = false;
+        isAttacking = false;
+        isStunned = false;
+        playerInAttackRange = false;
+
+        hitPlayers.Clear();
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalColor;
+
+        if (animator != null)
+        {
+            animator.speed = originalAnimatorSpeed;
+            animator.SetBool(AttackHash, false);
+            animator.SetBool(WalkHash, false);
+        }
+
+        if (meleeHitbox != null)
+            meleeHitbox.enabled = false;
+
+        stunRoutine = null;
+        knockbackRoutine = null;
+        flashRoutine = null;
+        deathRoutine = null;
+        if (body != null)
+            body.linearVelocity = Vector3.zero;
+    }
     private void Awake()
     {
+        body = GetComponent<Rigidbody>();
+
+        body.isKinematic = false;
+        body.useGravity = true;
+
+        body.constraints = RigidbodyConstraints.FreezeRotationX
+                        | RigidbodyConstraints.FreezeRotationZ;
+
+        initialRotation = transform.rotation;
+        targetRotation = initialRotation;
+
         currentHealth = maxHealth;
 
         if (animator == null)
@@ -63,6 +126,9 @@ public class EnemyController : MonoBehaviour
 
         if (spriteRenderer == null)
             spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+
+        if (animator != null)
+            originalAnimatorSpeed = animator.speed;
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
@@ -76,108 +142,208 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        if (player == null)
-        {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            return;
 
-            if (playerObject != null)
-                player = playerObject.transform;
-            else
-                Debug.LogWarning("No se encontró un objeto con el tag Player.", this);
-        }
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+            player = playerObject.transform;
+        else
+            Debug.LogError("No se encontró al jugador. Asígnale el tag Player.", this);
     }
 
     private void Update()
     {
-        if (isDead || isAttacking || player == null || animator == null)
+        if (player == null || isDead)
             return;
 
-        float distance = Mathf.Abs(player.position.x - transform.position.x);
-
-        if (distance > detectionRange || distance > attackRange)
+        UpdateFacingDirection(player.position.x - body.position.x);
+    }
+    private void FixedUpdate()
+    {
+        if (body == null)
             return;
 
-        facingDirection = player.position.x >= transform.position.x ? 1 : -1;
+        body.MoveRotation(targetRotation);
 
-        if (Time.time < nextAttackTime)
+        if (isDead || player == null || isAttacking)
+        {
+            StopHorizontalMovement();
+            animator?.SetBool(WalkHash, false);
             return;
+        }
 
-        isAttacking = true;
-        nextAttackTime = Time.time + attackCooldown;
-        hitTargets.Clear();
+        // Durante el stun no detenemos el empuje físico.
+        if (isStunned)
+        {
+            animator?.SetBool(WalkHash, false);
+            return;
+        }
 
-        animator.SetTrigger(AttackHash);
+        Vector3 direction = player.position - body.position;
+        direction.y = 0f;
+
+        bool isWalking = direction.sqrMagnitude > 0.0001f;
+        animator?.SetBool(WalkHash, isWalking);
+
+        Vector3 velocity = body.linearVelocity;
+
+        if (isWalking)
+        {
+            direction.Normalize();
+            velocity.x = direction.x * followSpeed;
+            velocity.z = direction.z * followSpeed;
+        }
+        else
+        {
+            velocity.x = 0f;
+            velocity.z = 0f;
+        }
+
+        // Conserva la velocidad vertical para que actúe la gravedad.
+        body.linearVelocity = velocity;
     }
 
-    // Animation Event: fotograma de impacto melee.
-    public void ActivateMeleeHitboxFromAnimation()
+    private void StopHorizontalMovement()
     {
-        if (isDead || attackType != AttackType.Melee || meleeHitbox == null)
+        Vector3 velocity = body.linearVelocity;
+        velocity.x = 0f;
+        velocity.z = 0f;
+        body.linearVelocity = velocity;
+    }
+
+    private void UpdateFacingDirection(float distanceX)
+    {
+        if (Mathf.Abs(distanceX) < 0.01f)
             return;
 
-        hitTargets.Clear();
-        meleeHitbox.size = hitboxSize;
+        facingDirection = distanceX > 0f ? 1 : -1;
 
-        Vector3 offset = hitboxOffset;
-        offset.x = Mathf.Abs(offset.x) * facingDirection;
-        meleeHitbox.transform.localPosition = offset;
+        float yaw = facingDirection < 0 ? 180f : 0f;
+        targetRotation = initialRotation * Quaternion.Euler(0f, yaw, 0f);
+    }
 
+    // Lo llama EnemyAttackRange al entrar o salir el jugador.
+    public void SetPlayerInAttackRange(Transform target, bool isInside)
+    {
+        if (isDead || target == null)
+            return;
+
+        player = target;
+        playerInAttackRange = isInside;
+
+        if (isInside)
+            UpdateFacingDirection(player.position.x - body.position.x);
+
+        if (isStunned)
+            return;
+
+        isAttacking = playerInAttackRange;
+
+        animator?.SetBool(AttackHash, isAttacking);
+        animator?.SetBool(WalkHash, !isAttacking);
+
+        if (!isInside)
+            DeactivateMeleeHitboxFromAnimation();
+    }
+
+    private IEnumerator StunRoutine()
+    {
+        isStunned = true;
+        isAttacking = false;
+
+        DeactivateMeleeHitboxFromAnimation();
+
+        if (animator != null)
+        {
+            animator.SetBool(AttackHash, false);
+            animator.SetBool(WalkHash, false);
+            animator.speed = 0f;
+        }
+
+        yield return new WaitForSeconds(stunDuration);
+
+        if (animator != null)
+            animator.speed = originalAnimatorSpeed;
+
+        isStunned = false;
+
+        if (!isDead)
+        {
+            isAttacking = playerInAttackRange;
+            animator?.SetBool(AttackHash, isAttacking);
+            animator?.SetBool(WalkHash, !isAttacking && player != null);
+        }
+
+        stunRoutine = null;
+    }
+
+    // Animation Event melee: en el fotograma de impacto.
+    public void ActivateMeleeHitboxFromAnimation()
+    {
+        if (isDead || isStunned || !isAttacking ||
+            attackType != AttackType.Melee || meleeHitbox == null)
+            return;
+
+        hitPlayers.Clear();
+
+        // El tamaño y posición del collider se configuran en el Inspector.
+        meleeHitbox.transform.localPosition = meleeHitboxOffset;
         meleeHitbox.enabled = true;
     }
 
-    // Animation Event: después del fotograma activo del golpe.
+    // Animation Event melee: al terminar la ventana de impacto.
     public void DeactivateMeleeHitboxFromAnimation()
     {
         if (meleeHitbox != null)
             meleeHitbox.enabled = false;
     }
 
-    // Animation Event: fotograma de impacto a distancia.
-    // Por ahora detecta al jugador en rango; luego aquí podemos lanzar un proyectil.
+    // Animation Event ranged: en el fotograma del impacto.
     public void RangedAttackFromAnimation()
     {
-        if (isDead || attackType != AttackType.Ranged || player == null)
+        if (isDead || isStunned || !isAttacking ||
+            attackType != AttackType.Ranged || player == null)
             return;
 
-        float distance = Mathf.Abs(player.position.x - transform.position.x);
+        PlayerStats playerStats = player.GetComponentInParent<PlayerStats>();
 
-        if (distance <= attackRange)
-        {
-            Collider playerCollider = player.GetComponentInChildren<Collider>();
+        if (playerStats == null)
+            return;
 
-            if (playerCollider != null)
-                TargetHit?.Invoke(playerCollider, attackDamage);
-        }
+        playerStats.TakeDamage(attackDamage, transform.position);
+
+        Collider playerCollider = player.GetComponentInChildren<Collider>();
+        if (playerCollider != null)
+            TargetHit?.Invoke(playerCollider, attackDamage);
     }
 
-    // Animation Event: final de la animación de ataque.
+    // Animation Event al terminar la animación.
     public void FinishAttackAnimation()
     {
         DeactivateMeleeHitboxFromAnimation();
-        isAttacking = false;
     }
 
     public void RegisterMeleeHit(Collider target)
     {
-        if (isDead || !isAttacking || target == null)
+        if (isDead || isStunned || !isAttacking || target == null)
             return;
 
-        // Evita que el hitbox golpee otros objetos que no sean el jugador.
-        if (target.GetComponentInParent<PlayerStats>() == null)
+        PlayerStats playerStats = target.GetComponentInParent<PlayerStats>();
+
+        if (playerStats == null || !hitPlayers.Add(playerStats))
             return;
 
-        if (!hitTargets.Add(target))
-            return;
-
+        playerStats.TakeDamage(attackDamage, transform.position);
         TargetHit?.Invoke(target, attackDamage);
     }
-
-    // Lo llama el AttackController del jugador cuando golpea el collider del cuerpo.
     public void TakeDamage(float damage, Vector3 attackerPosition)
     {
-        if (isDead)
+        if (isDead || damage <= 0f)
             return;
 
+        bool applyHitReaction = !isStunned;
         currentHealth = Mathf.Max(0f, currentHealth - damage);
 
         if (spriteRenderer != null)
@@ -188,23 +354,85 @@ public class EnemyController : MonoBehaviour
             flashRoutine = StartCoroutine(RedFlashRoutine());
         }
 
+        if (currentHealth <= 0f)
+        {
+            Die();
+            return;
+        }
+
+        // Los golpes repetidos durante el stun no reinician la reacción.
+        if (!applyHitReaction)
+            return;
+
+        stunRoutine = StartCoroutine(StunRoutine());
+
+        int direction = transform.position.x >= attackerPosition.x ? 1 : -1;
+
+        // Quitamos el movimiento horizontal anterior antes de aplicar el nuevo empuje.
+        Vector3 velocity = body.linearVelocity;
+        velocity.x = 0f;
+        velocity.z = 0f;
+        body.linearVelocity = velocity;
+
+        body.AddForce(
+            Vector3.right * direction * knockbackHorizontalForce
+            + Vector3.up * knockbackUpwardForce,
+            ForceMode.Impulse
+        );
+    }
+    private void Die()
+    {
+        if (isDead)
+            return;
+
+        isDead = true;
+        isAttacking = false;
+        isStunned = false;
+        playerInAttackRange = false;
+
+        if (stunRoutine != null)
+            StopCoroutine(stunRoutine);
+
         if (knockbackRoutine != null)
             StopCoroutine(knockbackRoutine);
 
-        int direction = transform.position.x >= attackerPosition.x ? 1 : -1;
-        knockbackRoutine = StartCoroutine(KnockbackRoutine(direction));
+        if (flashRoutine != null)
+            StopCoroutine(flashRoutine);
 
-        if (currentHealth <= 0f)
+        DeactivateMeleeHitboxFromAnimation();
+
+        if (animator != null)
         {
-            isDead = true;
-
-            if (meleeHitbox != null)
-                meleeHitbox.enabled = false;
-
-            Debug.Log($"{name} fue derrotado.", this);
+            animator.speed = originalAnimatorSpeed;
+            animator.SetBool(AttackHash, false);
+            animator.SetBool(WalkHash, false);
         }
+
+        deathRoutine = StartCoroutine(DeathRoutine());
     }
 
+    private IEnumerator DeathRoutine()
+    {
+        for (int i = 0; i < deathFlashCount; i++)
+        {
+            if (spriteRenderer != null)
+                spriteRenderer.color = Color.white;
+
+            yield return new WaitForSeconds(deathFlashInterval);
+
+            if (spriteRenderer != null)
+                spriteRenderer.color = originalColor;
+
+            yield return new WaitForSeconds(deathFlashInterval);
+        }
+
+        if (objectPool != null)
+            objectPool.ReturnObject(gameObject);
+        else
+            gameObject.SetActive(false);
+
+        ReturnedToPool?.Invoke(this);
+    }
     private IEnumerator RedFlashRoutine()
     {
         float elapsed = 0f;
@@ -227,27 +455,28 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator KnockbackRoutine(int direction)
     {
-        Vector3 startPosition = transform.position;
+        Vector3 startPosition = body.position;
         float elapsed = 0f;
 
         while (elapsed < knockbackDuration)
         {
             float t = elapsed / knockbackDuration;
-
-            Vector3 sideOffset =
-                Vector3.right * direction * knockbackDistance * t;
-
             float jumpArc = Mathf.Sin(t * Mathf.PI) * knockbackHeight;
 
-            transform.position =
-                startPosition + sideOffset + Vector3.up * jumpArc;
+            Vector3 position =
+                startPosition
+                + Vector3.right * direction * knockbackDistance * t
+                + Vector3.up * jumpArc;
 
-            elapsed += Time.deltaTime;
-            yield return null;
+            body.MovePosition(position);
+
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
 
-        transform.position =
-            startPosition + Vector3.right * direction * knockbackDistance;
+        body.MovePosition(
+            startPosition + Vector3.right * direction * knockbackDistance
+        );
 
         knockbackRoutine = null;
     }
