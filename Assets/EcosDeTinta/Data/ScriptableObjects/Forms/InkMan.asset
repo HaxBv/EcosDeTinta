@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: InkMan
   m_EditorClassIdentifier: Assembly-CSharp::FormData
   formName: InkMan
-  formSprite: {fileID: -9095717837082945937, guid: bd3cb4af8406d4436a2ae8c2aafe1f8d, type: 3}
-  animator: {fileID: 0}
+  formSprite: {fileID: 658911018085686238, guid: ce69759bc96c22e4aa2ab8390bcdbca8, type: 3}
+  animator: {fileID: 9100000, guid: f5e70b1e0fb1c2845b814205c6fdc99e, type: 2}
   walkSpeed: 4
   sprintSpeed: 7
   acceleration: 25
   jumpHeight: 2
+  maxStamina: 100
+  sprintStaminaCostPerSecond: 20
+  staminaRecoveryPerSecond: 20
   attackType: 0
   attackDamage: 7
   speedAttack: 0.9
-  attackBoxSize: {x: 3, y: 1, z: 3}
-  attackOffset: {x: 2, y: 0, z: 0}
+  attackBoxSize: {x: 1.5, y: 1, z: 3}
+  attackOffset: {x: 2, y: -0.6, z: 0}
   projectileSprite: {fileID: 0}
   projectileSpeed: 10
   projectileLifetime: 2

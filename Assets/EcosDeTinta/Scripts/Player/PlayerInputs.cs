@@ -4,12 +4,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
+    private static readonly int AbilityHash = Animator.StringToHash("Ability");
+
     private InputSystem_Actions inputs;
+
+    [Header("Animación")]
+    [SerializeField] private Animator characterAnimator;
 
     public event Action<Vector2> MoveChanged;
     public event Action JumpPressed;
     public event Action<bool> SprintChanged;
     public event Action AttackPressed;
+    public event Action AbilityPressed;
 
     private void Awake()
     {
@@ -24,6 +30,7 @@ public class PlayerInputs : MonoBehaviour
         inputs.Player.Sprint.performed += OnSprint;
         inputs.Player.Sprint.canceled += OnSprint;
         inputs.Player.Attack.performed += OnAttack;
+        inputs.Player.Ability.performed += OnAbility;
 
         inputs.Player.Enable();
     }
@@ -36,6 +43,7 @@ public class PlayerInputs : MonoBehaviour
         inputs.Player.Sprint.performed -= OnSprint;
         inputs.Player.Sprint.canceled -= OnSprint;
         inputs.Player.Attack.performed -= OnAttack;
+        inputs.Player.Ability.performed -= OnAbility;
 
         inputs.Player.Disable();
     }
@@ -63,7 +71,16 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext context)
     {
+        if (!context.performed)
+            return;
+
+        Debug.Log("[PlayerInputs] Se pulsó Attack.");
+        AttackPressed?.Invoke();
+    }
+
+    private void OnAbility(InputAction.CallbackContext context)
+    {
         if (context.performed)
-            AttackPressed?.Invoke();
+            AbilityPressed?.Invoke();
     }
 }

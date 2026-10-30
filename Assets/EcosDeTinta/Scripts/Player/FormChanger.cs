@@ -11,13 +11,14 @@ public class FormChanger : MonoBehaviour
     [SerializeField] private FormData[] forms = new FormData[4];
 
     private int currentFormIndex = -1;
+    [SerializeField] private AttackController attackController;
 
     private void Awake()
     {
+        if (attackController == null)
+            attackController = GetComponentInChildren<AttackController>(true);
+
         ChangeForm(0);
-    }
-    private void Start()
-    {
     }
 
     public void ChangeForm(int formIndex)
@@ -36,23 +37,35 @@ public class FormChanger : MonoBehaviour
             return;
         }
 
-        if (playerStats == null || characterSprite == null)
+        if (playerStats == null || characterSprite == null || characterAnimator == null)
         {
-            Debug.LogError("Asigna PlayerStats y CharacterSprite en el Inspector.", this);
+            Debug.LogError(
+                "Asigna PlayerStats, CharacterSprite y CharacterAnimator en el Inspector.",
+                this
+            );
             return;
         }
 
         if (currentFormIndex == formIndex)
             return;
+        attackController?.CancelAttack();
 
         playerStats.SetForm(selectedForm);
         characterSprite.sprite = selectedForm.FormSprite;
 
-        if (characterAnimator != null)
+        if (selectedForm.Animator != null)
+        {
             characterAnimator.runtimeAnimatorController = selectedForm.Animator;
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"La forma {selectedForm.FormName} no tiene un Animator Controller asignado en su FormData.",
+                selectedForm
+            );
+        }
 
         currentFormIndex = formIndex;
-
         Debug.Log($"Forma cambiada a: {selectedForm.FormName} (índice {formIndex})", this);
     }
 }

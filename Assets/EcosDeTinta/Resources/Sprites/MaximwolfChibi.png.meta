@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: 771a54e2120f39d40b7030f258f16d68
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4726972893896826553
+    second: MaximwolfChibi_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MaximwolfChibi_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bede9b6dc4999140800000000000000
+      internalID: 4726972893896826553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_1
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4834aa58ebfac814fa8d73f49192847a
+      internalID: -12900912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_2
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db29ba0ee41af1d488538205d0120237
+      internalID: 801230730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_3
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44b1a579e32348543846e60f6a9fcb35
+      internalID: -1613374101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0dd300f8a49da547ae0a84c5c4f44e4
+      internalID: -1507843708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_5
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9326d1cf4ec9a4b4380bcb024d6efe35
+      internalID: 1401681122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_6
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06a95c90fabe5f7428716cb356990324
+      internalID: -1806549784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_7
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc5dd6531de4f4a419939f558f582b87
+      internalID: -708062771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d76cb57190b457649a18fb2ac53c5ffb
+      internalID: 1446387769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_9
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31277caf6045a174682edf283d43d6db
+      internalID: 1486373164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_10
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f98dbea705f4eb44a3d127815f76523
+      internalID: -1016126478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_11
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01a38132e048c654487f358112594309
+      internalID: 725107963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb121fe46a8eaed419812fdf30554faf
+      internalID: -372987005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_13
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 396a5cb6056be814fa4f1155649b3aa7
+      internalID: -1813606910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_14
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c288f2a53f1d814baa9bf2a4d7210a2
+      internalID: 1186750425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_15
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4788c2c0f1ae46f4bbe5ab45ae56e453
+      internalID: 1998445918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c972582efc80d0c4aa55043b542eb14b
+      internalID: 1361076428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_17
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76254b0da22bb5d4c91479258fc7c9cb
+      internalID: -1803233739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaximwolfChibi_18
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.381506, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3fe61edcd418814eb8ce5eb58d7f736
+      internalID: 288338358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 542b21cb90326214faba27c903b3a7fa
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":448.0,"y":256.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.3815059959888458,"y":0.0022006030194461347},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      MaximwolfChibi_0: 4726972893896826553
+      MaximwolfChibi_1: -12900912
+      MaximwolfChibi_10: -1016126478
+      MaximwolfChibi_11: 725107963
+      MaximwolfChibi_12: -372987005
+      MaximwolfChibi_13: -1813606910
+      MaximwolfChibi_14: 1186750425
+      MaximwolfChibi_15: 1998445918
+      MaximwolfChibi_16: 1361076428
+      MaximwolfChibi_17: -1803233739
+      MaximwolfChibi_18: 288338358
+      MaximwolfChibi_2: 801230730
+      MaximwolfChibi_3: -1613374101
+      MaximwolfChibi_4: -1507843708
+      MaximwolfChibi_5: 1401681122
+      MaximwolfChibi_6: -1806549784
+      MaximwolfChibi_7: -708062771
+      MaximwolfChibi_8: 1446387769
+      MaximwolfChibi_9: 1486373164
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

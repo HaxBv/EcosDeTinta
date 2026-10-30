@@ -1,0 +1,559 @@
+fileFormatVersion: 2
+guid: c4490710acf573043955b57f3c438d9d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7166165665487449897
+    second: ShadowChibi_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ShadowChibi_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d015039b4aac8c90800000000000000
+      internalID: -7166165665487449897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_1
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c1020a5a77f59a49b3bde178ce5fca2
+      internalID: -1022833909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_2
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08b64165558b7b345b505310584c27f4
+      internalID: -918185199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_3
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 1024
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 419c85179a9d5b04cbe1340a53b831f7
+      internalID: -385113660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8754b35fbb083e948896fe03c64ca9e9
+      internalID: 123248879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_5
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cbcc7aba2f46224f8c136fd84364a95
+      internalID: -1744854526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_6
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 955fb43eb970bd64689b89392960e564
+      internalID: -2128062446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_7
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 768
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5f5a0734d90f1c4f8000ae4e34395ba
+      internalID: -1054174608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6111b416562a0946a09e41aa61ae915
+      internalID: 1576539137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_9
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b72c5377d73fb7a499d7aea27b0eb67d
+      internalID: 879981904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_10
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1315eb4b201c0642a0e479e688e0ec2
+      internalID: -1506918813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_11
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 512
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3625ee7f9edf7e45a19702c1fc9a498
+      internalID: -792837708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21bb83948ccfcf64cb197de0b846ba3a
+      internalID: 1425540293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_13
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bfb91be0e654c841b96acfbb28442b0
+      internalID: 916616347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_14
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 804fd99286c7316458228a345411a546
+      internalID: 677602564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_15
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 256
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05a940133641cd642a418e62dc3cc1bf
+      internalID: 1882474556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 203dc88ab0ee8b04fa93d177b0e9b31a
+      internalID: -1960694719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_17
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1caebaf4d9de1cd4c8245760009994e0
+      internalID: -1108143508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShadowChibi_18
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 448
+        height: 256
+      alignment: 9
+      pivot: {x: 0.375665, y: 0.002200603}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 697ceac8964e87b42affa874cca64ceb
+      internalID: -1137119783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9e904a3729dcd1e49a3bac1c9b974952
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":448.0,"y":256.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.37566500902175906,"y":0.0022006030194461347},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      ShadowChibi_0: -7166165665487449897
+      ShadowChibi_1: -1022833909
+      ShadowChibi_10: -1506918813
+      ShadowChibi_11: -792837708
+      ShadowChibi_12: 1425540293
+      ShadowChibi_13: 916616347
+      ShadowChibi_14: 677602564
+      ShadowChibi_15: 1882474556
+      ShadowChibi_16: -1960694719
+      ShadowChibi_17: -1108143508
+      ShadowChibi_18: -1137119783
+      ShadowChibi_2: -918185199
+      ShadowChibi_3: -385113660
+      ShadowChibi_4: 123248879
+      ShadowChibi_5: -1744854526
+      ShadowChibi_6: -2128062446
+      ShadowChibi_7: -1054174608
+      ShadowChibi_8: 1576539137
+      ShadowChibi_9: 879981904
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

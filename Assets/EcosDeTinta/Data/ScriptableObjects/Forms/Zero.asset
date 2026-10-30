@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: Zero
   m_EditorClassIdentifier: Assembly-CSharp::FormData
   formName: Zero
-  formSprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  animator: {fileID: 0}
+  formSprite: {fileID: 3219256295274779589, guid: b9e07640ea206994283f0374cff12f98, type: 3}
+  animator: {fileID: 9100000, guid: b5ee849c8da006b42a533be6819bc181, type: 2}
   walkSpeed: 4
   sprintSpeed: 7
   acceleration: 50
   jumpHeight: 2.3
+  maxStamina: 100
+  sprintStaminaCostPerSecond: 32
+  staminaRecoveryPerSecond: 60
   attackType: 0
   attackDamage: 7
   speedAttack: 0.55
   attackBoxSize: {x: 3, y: 1, z: 3}
-  attackOffset: {x: 2, y: 0, z: 0}
+  attackOffset: {x: 2, y: -0.6, z: 0}
   projectileSprite: {fileID: 0}
   projectileSpeed: 10
   projectileLifetime: 2

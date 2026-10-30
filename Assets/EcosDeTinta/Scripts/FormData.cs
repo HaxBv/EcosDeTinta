@@ -14,6 +14,9 @@ public class FormData : ScriptableObject
     [SerializeField] private float sprintSpeed;
     [SerializeField] private float acceleration;
     [SerializeField] private float jumpHeight;
+    [SerializeField] private float maxStamina;
+    [SerializeField] private float sprintStaminaCostPerSecond;
+    [SerializeField] private float staminaRecoveryPerSecond;
 
     [Header("Tipo de ataque")]
     [SerializeField] private AttackType attackType = AttackType.Melee;
@@ -76,4 +79,8 @@ public class FormData : ScriptableObject
 
     public float Health => health;
     public float Defense => defense;
+
+    public float MaxStamina => maxStamina;
+    public float SprintStaminaCostPerSecond => sprintStaminaCostPerSecond;
+    public float StaminaRecoveryPerSecond => staminaRecoveryPerSecond;
 }

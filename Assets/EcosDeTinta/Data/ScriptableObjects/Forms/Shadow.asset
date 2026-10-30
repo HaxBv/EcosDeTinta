@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: Shadow
   m_EditorClassIdentifier: Assembly-CSharp::FormData
   formName: Shadow
-  formSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  animator: {fileID: 0}
+  formSprite: {fileID: -7166165665487449897, guid: c4490710acf573043955b57f3c438d9d, type: 3}
+  animator: {fileID: 9100000, guid: d1fc07aa5826422408904f458edaa192, type: 2}
   walkSpeed: 6
   sprintSpeed: 8
   acceleration: 40
   jumpHeight: 2.5
+  maxStamina: 75
+  sprintStaminaCostPerSecond: 22
+  staminaRecoveryPerSecond: 40
   attackType: 0
   attackDamage: 12
   speedAttack: 0.6
   attackBoxSize: {x: 5, y: 1, z: 3}
-  attackOffset: {x: 2, y: 0, z: 0}
+  attackOffset: {x: 2, y: -0.6, z: 0}
   projectileSprite: {fileID: 0}
   projectileSpeed: 10
   projectileLifetime: 2

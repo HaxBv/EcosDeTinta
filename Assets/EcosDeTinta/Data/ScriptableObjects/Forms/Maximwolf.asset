@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: Maximwolf
   m_EditorClassIdentifier: Assembly-CSharp::FormData
   formName: Maximwolf
-  formSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  animator: {fileID: 0}
+  formSprite: {fileID: 4726972893896826553, guid: 771a54e2120f39d40b7030f258f16d68, type: 3}
+  animator: {fileID: 9100000, guid: 04b375c80b20f7f42a0e779998add525, type: 2}
   walkSpeed: 4
   sprintSpeed: 10
   acceleration: 35
   jumpHeight: 3
+  maxStamina: 160
+  sprintStaminaCostPerSecond: 12
+  staminaRecoveryPerSecond: 14
   attackType: 0
   attackDamage: 10
   speedAttack: 0.65
   attackBoxSize: {x: 4, y: 1, z: 4}
-  attackOffset: {x: 2, y: 0, z: 0}
+  attackOffset: {x: 2, y: -0.6, z: 0}
   projectileSprite: {fileID: 0}
   projectileSpeed: 10
   projectileLifetime: 2
