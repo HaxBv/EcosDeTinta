@@ -68,4 +68,10 @@ public class FormChanger : MonoBehaviour
         currentFormIndex = formIndex;
         Debug.Log($"Forma cambiada a: {selectedForm.FormName} (índice {formIndex})", this);
     }
+
+    public void ChangeFormForced(int formIndex)
+    {
+        // Ejecuta aquí la misma lógica interna que ya usa ChangeForm,
+        // pero sin comprobar el bloqueo de cambio manual.
+    }
 }

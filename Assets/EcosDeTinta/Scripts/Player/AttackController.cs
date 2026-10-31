@@ -31,8 +31,17 @@ public class AttackController : MonoBehaviour
 
     public event Action<Collider, float> TargetHit;
 
+    [SerializeField] private float maximwolfDamageMultiplier = 1.5f;
+    [SerializeField] private float maximwolfCooldownMultiplier = 0.65f;
+    [SerializeField] private float zeroBulletSeparation = 0.12f;
+
+    private OutOfControlManager outOfControlManager;
+    private bool maximwolfOutOfControl;
+    private bool zeroOutOfControl;
+
     private void Awake()
     {
+        outOfControlManager = GetComponentInParent<OutOfControlManager>();
         stats = GetComponentInParent<PlayerStats>();
         playerInputs = GetComponentInParent<PlayerInputs>();
         movement = GetComponentInParent<MovementController>();
@@ -63,12 +72,16 @@ public class AttackController : MonoBehaviour
     {
         if (playerInputs != null)
             playerInputs.AttackPressed += TryAttack;
+        if (outOfControlManager != null)
+            outOfControlManager.FormEffectChanged += OnOutOfControlFormChanged;
     }
 
     private void OnDisable()
     {
         if (playerInputs != null)
             playerInputs.AttackPressed -= TryAttack;
+        if (outOfControlManager != null)
+            outOfControlManager.FormEffectChanged -= OnOutOfControlFormChanged;
 
         StopHitboxRoutine();
 
@@ -78,7 +91,17 @@ public class AttackController : MonoBehaviour
         activeAttackForm = null;
         movement?.UnlockMovement();
     }
+    private void OnOutOfControlFormChanged(FormData form, bool isActive)
+    {
+        if (form == null)
+            return;
 
+        if (form.FormName == "Maximwolf")
+            maximwolfOutOfControl = isActive;
+
+        if (form.FormName == "Zero")
+            zeroOutOfControl = isActive;
+    }
     private void TryAttack()
     {
         if (stats == null ||
@@ -94,7 +117,9 @@ public class AttackController : MonoBehaviour
 
         FormData form = stats.CurrentForm;
 
-        nextAttackTime = Time.time + form.SpeedAttack;
+        float cooldownMultiplier = maximwolfOutOfControl ? maximwolfCooldownMultiplier: 1f;
+
+        nextAttackTime = Time.time + form.SpeedAttack * cooldownMultiplier;
         movement.LockMovement();
         characterAnimator.SetTrigger(AttackHash);
 

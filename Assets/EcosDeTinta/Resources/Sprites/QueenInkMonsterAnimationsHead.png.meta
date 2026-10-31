@@ -1,0 +1,927 @@
+fileFormatVersion: 2
+guid: 2c707c753d6e1104798a739e39db805f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6757694750045424641
+    second: QueenInkMonsterAnimationsHead_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6144
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff3350bbd68d732a0800000000000000
+      internalID: -6757694750045424641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_1
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 6144
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44a35c3137204c0448a9c7e0e803181b
+      internalID: 1783993565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_2
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 6144
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d9d6976a54929245b5ae2a8dec97152
+      internalID: 2038152800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_3
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 6144
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4cc3cadfb5f0704a94cd20d83af2aa5
+      internalID: -1738170726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_4
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 6144
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b29eee0bbe9bca740bb9568e24c57da3
+      internalID: 1355767734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5120
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90e56592eb965c24090093409bd98b74
+      internalID: 563976810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_6
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 5120
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d86eae6762e172949b7cd639dc983686
+      internalID: -367279873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_7
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 5120
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a97c897f7a640042a3478b6af2bd676
+      internalID: 1791396563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_8
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 5120
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5ec4f81632545e46a9339fdc22eca60
+      internalID: 884164343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_9
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 5120
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1ff5668e96bdd34ab27f52182c48392
+      internalID: -1801534555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4096
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a7bece2b7eab0e4989c0a1d6094094e
+      internalID: -1926264589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_11
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 4096
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6a77d44169311e489f3f19c7d00d59d
+      internalID: 216478221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_12
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 4096
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1136a838db0886f418e21da5c043ac09
+      internalID: 1222573793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_13
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 4096
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db7d7f23bbf0c0c4a9f36bec32d51301
+      internalID: -532142077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_14
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 4096
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97d487a374534344e83160cbb6e8bda0
+      internalID: -553612273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3072
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25dc3f6d03fd08d4281281b6eb323f75
+      internalID: 1813630766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_16
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 3072
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a030b152b39d31d4084795311956c74d
+      internalID: -310728656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_17
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 3072
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f727ddb20fdf884f9d5dfc91217811e
+      internalID: -330950243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_18
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 3072
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c2fc370d28687047a974a0ae69b504d
+      internalID: -189371531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_19
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 3072
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ccecdf618b161e4fb0bf28d1adca8b0
+      internalID: 717385579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2048
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8392cbe70a7bfa747ad205eee6fc9db3
+      internalID: -678053795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_21
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 2048
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 169d78b13644f63439efde2e421b7738
+      internalID: 1977902661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_22
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 2048
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be4d0a93a02996f4daafc70e0df53d88
+      internalID: 2052657484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_23
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 2048
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f351b0ebe7e1e054ea37cd7199e41413
+      internalID: 166887042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_24
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 2048
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a67572b7a6c1bf743b8ec8bd50e6121c
+      internalID: 361737370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaae857564350e04195b4f1f04ea57e6
+      internalID: -1142973567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_26
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 1024
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3029e644a1dc1fd4c83c40429ed058d4
+      internalID: 465750008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_27
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 1024
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0508142e4dfd924ea1db1d2a398b0d6
+      internalID: 1748342699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_28
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 1024
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e114458eb37ac74d92c8b7b235efcae
+      internalID: -2095940220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_29
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 1024
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf572b46fc19a67439b1b7b845f0d59a
+      internalID: -562778221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1886fda5733c11249bcb99950f67a5b3
+      internalID: -414923073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_31
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 0
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3aed20209830cf488530383add0c24b
+      internalID: 913218933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_32
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 0
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 992b6a44236ad1c4f80829fa88d43d97
+      internalID: 597826236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_33
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 0
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c614d188dca1894e9e73a097ccd6922
+      internalID: -2069213288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: QueenInkMonsterAnimationsHead_34
+      rect:
+        serializedVersion: 2
+        x: 8000
+        y: 0
+        width: 2000
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e0c750fd8c82a41829274d414399d9
+      internalID: 1663859997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 282d7e7657b701747aa886a41cf88a79
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":2000.0,"y":1024.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      QueenInkMonsterAnimationsHead_0: -6757694750045424641
+      QueenInkMonsterAnimationsHead_1: 1783993565
+      QueenInkMonsterAnimationsHead_10: -1926264589
+      QueenInkMonsterAnimationsHead_11: 216478221
+      QueenInkMonsterAnimationsHead_12: 1222573793
+      QueenInkMonsterAnimationsHead_13: -532142077
+      QueenInkMonsterAnimationsHead_14: -553612273
+      QueenInkMonsterAnimationsHead_15: 1813630766
+      QueenInkMonsterAnimationsHead_16: -310728656
+      QueenInkMonsterAnimationsHead_17: -330950243
+      QueenInkMonsterAnimationsHead_18: -189371531
+      QueenInkMonsterAnimationsHead_19: 717385579
+      QueenInkMonsterAnimationsHead_2: 2038152800
+      QueenInkMonsterAnimationsHead_20: -678053795
+      QueenInkMonsterAnimationsHead_21: 1977902661
+      QueenInkMonsterAnimationsHead_22: 2052657484
+      QueenInkMonsterAnimationsHead_23: 166887042
+      QueenInkMonsterAnimationsHead_24: 361737370
+      QueenInkMonsterAnimationsHead_25: -1142973567
+      QueenInkMonsterAnimationsHead_26: 465750008
+      QueenInkMonsterAnimationsHead_27: 1748342699
+      QueenInkMonsterAnimationsHead_28: -2095940220
+      QueenInkMonsterAnimationsHead_29: -562778221
+      QueenInkMonsterAnimationsHead_3: -1738170726
+      QueenInkMonsterAnimationsHead_30: -414923073
+      QueenInkMonsterAnimationsHead_31: 913218933
+      QueenInkMonsterAnimationsHead_32: 597826236
+      QueenInkMonsterAnimationsHead_33: -2069213288
+      QueenInkMonsterAnimationsHead_34: 1663859997
+      QueenInkMonsterAnimationsHead_4: 1355767734
+      QueenInkMonsterAnimationsHead_5: 563976810
+      QueenInkMonsterAnimationsHead_6: -367279873
+      QueenInkMonsterAnimationsHead_7: 1791396563
+      QueenInkMonsterAnimationsHead_8: 884164343
+      QueenInkMonsterAnimationsHead_9: -1801534555
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

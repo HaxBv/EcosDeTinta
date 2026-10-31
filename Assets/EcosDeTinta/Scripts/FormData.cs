@@ -54,9 +54,22 @@ public class FormData : ScriptableObject
     [SerializeField] private float health;
     [SerializeField] private float defense;
 
+
+
+
+
+
     private bool IsMelee => attackType == AttackType.Melee;
     private bool IsRanged => attackType == AttackType.Ranged;
 
+    [Header("Pérdida de control")]
+    [SerializeField, Min(0f)] private float controlLossMultiplier = 1f;
+
+
+
+
+
+    #region Getters
     public string FormName => formName;
     public Sprite FormSprite => formSprite;
     public RuntimeAnimatorController Animator => animator;
@@ -86,4 +99,7 @@ public class FormData : ScriptableObject
     public float MaxStamina => maxStamina;
     public float SprintStaminaCostPerSecond => sprintStaminaCostPerSecond;
     public float StaminaRecoveryPerSecond => staminaRecoveryPerSecond;
+
+    public float ControlLossMultiplier => controlLossMultiplier;
+    #endregion
 }

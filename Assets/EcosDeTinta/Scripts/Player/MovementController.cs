@@ -7,7 +7,17 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     private static readonly int RunningHash = Animator.StringToHash("Running");
+    private OutOfControlManager outOfControlManager;
+    private bool maximwolfOutOfControl;
+    private bool zeroOutOfControl;
 
+    [Header("Dash fuera de control de Zero")]
+    [SerializeField] private float zeroDashInterval = 2f;
+    [SerializeField] private float zeroDashDuration = 0.2f;
+    [SerializeField] private float zeroDashSpeed = 12f;
+
+    private float zeroDashCooldown;
+    private float zeroDashRemaining;
     private PlayerStats stats;
     private PlayerInputs playerInputs;
     private CharacterController controller;
@@ -61,6 +71,7 @@ public class MovementController : MonoBehaviour
     }
     private void Awake()
     {
+        outOfControlManager = GetComponent<OutOfControlManager>();
         controller = GetComponent<CharacterController>();
         stats = GetComponent<PlayerStats>();
         playerInputs = GetComponent<PlayerInputs>();
@@ -80,6 +91,9 @@ public class MovementController : MonoBehaviour
         playerInputs.MoveChanged += OnMove;
         playerInputs.JumpPressed += OnJump;
         playerInputs.SprintChanged += OnSprint;
+
+        if (outOfControlManager != null)
+            outOfControlManager.FormEffectChanged += OnOutOfControlFormChanged;
     }
 
     private void OnDisable()
@@ -87,30 +101,63 @@ public class MovementController : MonoBehaviour
         playerInputs.MoveChanged -= OnMove;
         playerInputs.JumpPressed -= OnJump;
         playerInputs.SprintChanged -= OnSprint;
+        if (outOfControlManager != null)
+            outOfControlManager.FormEffectChanged -= OnOutOfControlFormChanged;
 
         if (characterAnimator != null)
             characterAnimator.SetBool(RunningHash, false);
     }
+    private void OnOutOfControlFormChanged(FormData form, bool isActive)
+    {
+        if (form == null)
+            return;
 
+        if (form.FormName == "Maximwolf")
+            maximwolfOutOfControl = isActive;
+
+        if (form.FormName == "Zero")
+        {
+            zeroOutOfControl = isActive;
+            zeroDashCooldown = zeroDashInterval;
+            zeroDashRemaining = 0f;
+        }
+    }
     private void Update()
     {
         if (stats == null || stats.CurrentForm == null)
             return;
 
         float deltaTime = Time.deltaTime;
-
+        UpdateZeroDash(deltaTime);
         UpdateFacingDirection();
         UpdateSprintAndStamina(deltaTime);
         ApplyMovement(deltaTime);
         UpdateJumpAvailability(deltaTime);
         UpdateRunningAnimation();
     }
+    private void UpdateZeroDash(float deltaTime)
+    {
+        if (!zeroOutOfControl)
+            return;
 
+        zeroDashCooldown -= deltaTime;
+
+        if (zeroDashCooldown <= 0f)
+        {
+            zeroDashRemaining = zeroDashDuration;
+            zeroDashCooldown = zeroDashInterval;
+        }
+    }
     private void UpdateFacingDirection()
     {
         if (ShouldStopHorizontalMovement || moveInput.x == 0f)
             return;
-        FacingDirection = moveInput.x > 0f ? 1 : -1;
+        Vector2 facingInput = maximwolfOutOfControl ? -moveInput : moveInput;
+
+        if (ShouldStopHorizontalMovement || facingInput.x == 0f)
+            return;
+
+        FacingDirection = facingInput.x > 0f ? 1 : -1;
 
         if (visual != null)
         {
@@ -120,6 +167,7 @@ public class MovementController : MonoBehaviour
                 visualOriginalScale.z
             );
         }
+
     }
 
     private void UpdateRunningAnimation()
@@ -214,13 +262,24 @@ public class MovementController : MonoBehaviour
     }
     private void ApplyMovement(float deltaTime)
     {
-        if (ShouldStopHorizontalMovement)
+        if (zeroDashRemaining > 0f)
+        {
+            horizontalVelocity =
+                Vector3.right * FacingDirection * zeroDashSpeed;
+
+            zeroDashRemaining -= deltaTime;
+        }
+        else if (ShouldStopHorizontalMovement)
         {
             horizontalVelocity = Vector3.zero;
         }
         else
         {
-            Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y);
+            Vector2 movementInput =
+                maximwolfOutOfControl ? -moveInput : moveInput;
+
+            Vector3 direction =
+                new Vector3(movementInput.x, 0f, movementInput.y);
 
             float targetSpeed = isSprinting
                 ? stats.SprintSpeed
