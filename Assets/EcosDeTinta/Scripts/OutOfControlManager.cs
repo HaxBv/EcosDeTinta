@@ -14,7 +14,16 @@ public class OutOfControlManager : MonoBehaviour
     [SerializeField] private float shadowMinInterval = 2f;
     [SerializeField] private float shadowMaxInterval = 4f;
 
+
     private float nextShadowAbilityTime = -1f;
+
+
+    private static readonly int AttackSpeedMultiplierHash =
+    Animator.StringToHash("AttackSpeedMultiplier");
+
+    [SerializeField, Min(1f)]
+    private float maximwolfOutOfControlAttackSpeed = 2f;
+
     [Header("Referencias")]
     [SerializeField] private PlayerStats stats;
     [SerializeField] private FormChanger formChanger;
@@ -105,6 +114,15 @@ public class OutOfControlManager : MonoBehaviour
         }
 
         FormEffectChanged?.Invoke(form, isActive);
+        if (form != null &&
+    form.FormName == "Maximwolf" &&
+    characterAnimator != null)
+        {
+            characterAnimator.SetFloat(
+                AttackSpeedMultiplierHash,
+                isActive ? maximwolfOutOfControlAttackSpeed : 1f
+            );
+        }
     }
     private void Update()
     {
