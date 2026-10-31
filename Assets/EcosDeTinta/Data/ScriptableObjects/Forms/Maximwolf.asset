@@ -28,8 +28,10 @@ MonoBehaviour:
   attackBoxSize: {x: 4, y: 1, z: 4}
   attackOffset: {x: 0, y: -0.6, z: 0}
   projectileSprite: {fileID: 0}
+  animatorProyectile: {fileID: 0}
   projectileSpeed: 10
   projectileLifetime: 2
   projectileColliderSize: {x: 0.5, y: 0.5, z: 0.5}
   health: 100
   defense: 10
+  controlLossMultiplier: 2

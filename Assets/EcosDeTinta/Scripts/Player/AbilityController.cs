@@ -49,6 +49,13 @@ public class AbilityController : MonoBehaviour
     [SerializeField] private float shadowSplitDamageMultiplier = 0.6f;
     [SerializeField] private float shadowSplitSpawnOffset = 0.2f;
 
+
+
+    [SerializeField] private int normalShadowSplitCount = 3;
+    [SerializeField] private int outOfControlShadowSplitCount = 5;
+    [SerializeField] private float outOfControlShadowSplitAngle = 65f;
+
+    private OutOfControlManager outOfControlManager;
     [Header("Habilidad de Maximwolf")]
     [SerializeField] private Collider maximwolfAbilityHitbox;
     [SerializeField] private float maximwolfDamageMultiplier = 1f;
@@ -82,7 +89,7 @@ public class AbilityController : MonoBehaviour
         playerInputs = GetComponent<PlayerInputs>();
         movement = GetComponent<MovementController>();
         characterAnimator = GetComponentInChildren<Animator>(true);
-
+        outOfControlManager = GetComponent<OutOfControlManager>();
         // Estos colliders deben ser hijos directos de Player,
         // fuera del objeto Sprite que se voltea.
         if (inkmanHammerHitbox != null)
@@ -205,13 +212,19 @@ public class AbilityController : MonoBehaviour
         inkmanHammerHitbox.enabled = true;
         if (inkmanImpulseSource != null)
         {
+            var impulse = inkmanImpulseSource.ImpulseDefinition;
+            impulse.ImpulseDuration = inkmanShakeDuration;
+            impulse.AmplitudeGain = inkmanShakeMagnitude;
+
             inkmanImpulseSource.GenerateImpulseWithForce(inkmanShakeForce);
         }
         else
         {
-            Debug.LogError("Asigna Cinemachine Impulse Source en AbilityController.", this);
+            Debug.LogError(
+                "Asigna Cinemachine Impulse Source en AbilityController.",
+                this
+            );
         }
-
         if (inkmanHitboxRoutine != null)
             StopCoroutine(inkmanHitboxRoutine);
 
@@ -355,7 +368,6 @@ public class AbilityController : MonoBehaviour
     }
 
     // SHADOW
-
     public void LaunchShadowDaggerFromAnimation()
     {
         if (stats == null ||
@@ -375,7 +387,18 @@ public class AbilityController : MonoBehaviour
             return;
         }
 
-        // La segunda componente representa profundidad Z en el script del proyectil.
+        bool shadowOutOfControl =
+            outOfControlManager != null &&
+            outOfControlManager.IsOutOfControl;
+
+        int splitCount = shadowOutOfControl
+            ? outOfControlShadowSplitCount
+            : normalShadowSplitCount;
+
+        float splitAngle = shadowOutOfControl
+            ? outOfControlShadowSplitAngle
+            : shadowSplitAngle;
+
         Vector2 direction = new Vector2(movement.FacingDirection, 0f);
 
         ShadowDaggerProjectile dagger = Instantiate(
@@ -394,9 +417,10 @@ public class AbilityController : MonoBehaviour
             true,
             null,
             shadowDaggerPrefab,
-            shadowSplitAngle,
+            splitAngle,
             shadowSplitDamageMultiplier,
             shadowSplitSpawnOffset,
+            splitCount,
             (collider, damage) => TargetHit?.Invoke(collider, damage)
         );
     }
@@ -526,6 +550,23 @@ public class AbilityController : MonoBehaviour
             return;
 
         abilityAnimationActive = false;
+
         movement?.UnlockMovement();
+
+    }
+    public void CancelAbilityForFormChange()
+    {
+        // Ejecuta la limpieza que normalmente hace el evento final de la animación.
+        FinishAbilityAnimation();
+
+        // Garantiza que cambiar de forma no deje al jugador bloqueado.
+        abilityAnimationActive = false;
+        movement?.UnlockMovement();
+
+        if (characterAnimator != null &&
+            characterAnimator.runtimeAnimatorController != null)
+        {
+            characterAnimator.ResetTrigger(AbilityHash);
+        }
     }
 }

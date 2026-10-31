@@ -34,3 +34,4 @@ MonoBehaviour:
   projectileColliderSize: {x: 0.5, y: 0.5, z: 0.5}
   health: 130
   defense: 10
+  controlLossMultiplier: 1.5

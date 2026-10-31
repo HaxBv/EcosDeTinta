@@ -1,43 +1,60 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Serializable]
-    private class EnemyGroup
+    private enum EnemyType
     {
-        public ObjectPooling pool;
-        [Min(0)] public int amount = 1;
+        Fast,
+        Flyer,
+        Tank
     }
 
-    [Serializable]
-    private class Phase
-    {
-        public string phaseName;
-        public Transform[] spawnPoints;
-        public EnemyGroup[] enemyGroups;
-    }
-
-    [Header("Jugador")]
+    [Header("Referencias")]
     [SerializeField] private Transform player;
+    [SerializeField] private ObjectPooling enemyPool;
 
-    [Header("Oleadas")]
-    [SerializeField] private Phase[] phases = new Phase[3];
-    [SerializeField] private bool startOnPlay = true;
-    [SerializeField] private float delayBetweenPhases = 1.5f;
+    [Header("Prefabs")]
+    [SerializeField] private GameObject fastPrefab;
+    [SerializeField] private GameObject flyerPrefab;
+    [SerializeField] private GameObject tankPrefab;
 
-    [Header("Al terminar todas las fases")]
-    [SerializeField] private UnityEvent onAllPhasesCleared;
+    [Header("Cantidad en esta escena")]
+    [Min(0)][SerializeField] private int fastCount = 4;
+    [Min(0)][SerializeField] private int flyerCount = 3;
+    [Min(0)][SerializeField] private int tankCount = 2;
 
-    private readonly HashSet<EnemyController> activeEnemies =
-        new HashSet<EnemyController>();
+    [Header("Desbloqueo desde que empieza esta escena")]
+    [Min(0f)][SerializeField] private float flyerUnlockTime = 10f;
+    [Min(0f)][SerializeField] private float tankUnlockTime = 20f;
 
-    private int currentPhaseIndex = -1;
-    private int spawnPointIndex;
-    private bool transitionRunning;
+    [Header("Puntos de aparición")]
+    [SerializeField] private Transform[] leftSpawnPoints = new Transform[2];
+    [SerializeField] private Transform[] rightSpawnPoints = new Transform[2];
+
+    [Header("Intervalo entre apariciones")]
+    [Min(0.1f)][SerializeField] private float minSpawnInterval = 2f;
+    [Min(0.1f)][SerializeField] private float maxSpawnInterval = 4f;
+
+    [Header("Al derrotar a todos los enemigos de esta escena")]
+    [SerializeField] private UnityEvent onAllEnemiesDefeated;
+
+    private readonly HashSet<EnemyController> activeEnemies = new();
+    private readonly Queue<EnemyType> guaranteedSpawns = new();
+    private readonly int[] remainingByType = new int[3];
+
+    private float sceneElapsed;
+    private float spawnTimer;
+
+    private bool flyersUnlocked;
+    private bool tanksUnlocked;
+    private bool completionInvoked;
+    private bool isSpawning;
+
+    [Header("Límite en pantalla")]
+    [Min(1)][SerializeField] private int maxEnemiesOnScreen = 5;
+    [Min(0.1f)][SerializeField] private float retryDelayOnFailure = 0.5f;
 
     private void Start()
     {
@@ -55,107 +72,304 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        if (startOnPlay)
-            StartPhase(0);
-    }
-
-    public void StartPhase(int phaseIndex)
-    {
-        if (phaseIndex < 0 || phaseIndex >= phases.Length)
+        if (enemyPool == null)
         {
-            Debug.LogWarning($"Fase inválida: {phaseIndex}", this);
+            Debug.LogError("Asigna el ObjectPooling de esta escena.", this);
             return;
         }
 
-        currentPhaseIndex = phaseIndex;
-        spawnPointIndex = 0;
+        StartSpawning();
+    }
+    private void Update()
+    {
+        if (!isSpawning || completionInvoked)
+            return;
 
-        Phase phase = phases[phaseIndex];
-        Debug.Log($"Comienza la fase: {phase.phaseName}", this);
+        sceneElapsed += Time.deltaTime;
+        UnlockEnemiesByTime();
 
-        foreach (EnemyGroup group in phase.enemyGroups)
-        {
-            if (group == null || group.pool == null)
-            {
-                Debug.LogWarning(
-                    $"Hay un grupo sin pool asignado en {phase.phaseName}.",
-                    this
-                );
-                continue;
-            }
+        // Al alcanzar el máximo, el contador queda pausado.
+        if (activeEnemies.Count >= maxEnemiesOnScreen)
+            return;
 
-            for (int i = 0; i < group.amount; i++)
-                SpawnEnemy(group.pool, phase.spawnPoints);
-        }
+        spawnTimer -= Time.deltaTime;
 
-        if (activeEnemies.Count == 0)
-            StartCoroutine(AdvancePhaseAfterDelay());
+        if (spawnTimer > 0f)
+            return;
+
+        if (TrySpawnNextEnemy())
+            spawnTimer = GetRandomSpawnInterval();
+        else
+            spawnTimer = retryDelayOnFailure;
+
+        CheckCompletion();
     }
 
-    private void SpawnEnemy(ObjectPooling pool, Transform[] spawnPoints)
+    // Puedes llamarlo desde un evento si desactivas el inicio automático.
+    public void StartSpawning()
     {
-        Transform point = transform;
-
-        if (spawnPoints != null && spawnPoints.Length > 0)
+        if (player == null || enemyPool == null)
         {
-            point = spawnPoints[spawnPointIndex % spawnPoints.Length];
-            spawnPointIndex++;
+            Debug.LogError("El spawner necesita Player y ObjectPooling.", this);
+            return;
         }
 
-        GameObject enemyObject = pool.GetObject(
-            point.position,
-            point.rotation,
+        remainingByType[(int)EnemyType.Fast] = fastCount;
+        remainingByType[(int)EnemyType.Flyer] = flyerCount;
+        remainingByType[(int)EnemyType.Tank] = tankCount;
+
+        guaranteedSpawns.Clear();
+
+        sceneElapsed = 0f;
+        spawnTimer = GetRandomSpawnInterval();
+        flyersUnlocked = false;
+        tanksUnlocked = false;
+        completionInvoked = false;
+        isSpawning = true;
+
+        // El primer enemigo será veloz, si hay alguno configurado.
+        if (fastCount > 0)
+            guaranteedSpawns.Enqueue(EnemyType.Fast);
+
+        Debug.Log("Comienza el spawner de esta escena.", this);
+        CheckCompletion();
+    }
+
+    private void UnlockEnemiesByTime()
+    {
+        if (!flyersUnlocked && sceneElapsed >= flyerUnlockTime)
+        {
+            flyersUnlocked = true;
+
+            if (remainingByType[(int)EnemyType.Flyer] > 0)
+                guaranteedSpawns.Enqueue(EnemyType.Flyer);
+
+            Debug.Log("Se desbloquearon los enemigos voladores.", this);
+        }
+
+        if (!tanksUnlocked && sceneElapsed >= tankUnlockTime)
+        {
+            tanksUnlocked = true;
+
+            if (remainingByType[(int)EnemyType.Tank] > 0)
+                guaranteedSpawns.Enqueue(EnemyType.Tank);
+
+            Debug.Log("Se desbloquearon los enemigos tanque.", this);
+        }
+    }
+    private bool TrySpawnNextEnemy()
+    {
+        if (!TryChooseEnemyType(out EnemyType type, out bool isGuaranteed))
+            return false;
+
+        if (!TryChooseSpawnPoint(out Transform spawnPoint))
+            return false;
+
+        GameObject prefab = GetPrefab(type);
+
+        if (prefab == null)
+        {
+            Debug.LogError($"No hay prefab asignado para {type}.", this);
+            return false;
+        }
+
+        GameObject enemyObject = enemyPool.GetObject(
+            prefab,
+            spawnPoint.position,
+            Quaternion.identity,
             false
         );
 
         if (enemyObject == null)
-            return;
+            return false;
 
         EnemyController enemy = enemyObject.GetComponent<EnemyController>();
 
         if (enemy == null)
         {
             Debug.LogError(
-                $"El prefab {enemyObject.name} no tiene EnemyController.",
+                $"{enemyObject.name} no tiene EnemyController.",
                 enemyObject
             );
 
-            pool.ReturnObject(enemyObject);
-            return;
+            enemyPool.ReturnObject(enemyObject);
+            return false;
         }
 
-        enemy.ConfigureForSpawn(player, pool);
+        enemy.ConfigureForSpawn(player, enemyPool);
         enemy.ReturnedToPool += OnEnemyReturnedToPool;
         activeEnemies.Add(enemy);
 
+        remainingByType[(int)type]--;
+
+        if (isGuaranteed && guaranteedSpawns.Count > 0)
+            guaranteedSpawns.Dequeue();
+
         enemyObject.SetActive(true);
+
+        Debug.Log(
+            $"Apareció {type}. Restantes de este tipo: " +
+            $"{remainingByType[(int)type]}",
+            enemyObject
+        );
+
+        return true;
+    }
+
+    private bool TryChooseEnemyType(
+        out EnemyType selectedType,
+        out bool isGuaranteed)
+    {
+        while (guaranteedSpawns.Count > 0)
+        {
+            EnemyType guaranteedType = guaranteedSpawns.Peek();
+
+            if (remainingByType[(int)guaranteedType] > 0 &&
+                IsTypeUnlocked(guaranteedType))
+            {
+                selectedType = guaranteedType;
+                isGuaranteed = true;
+                return true;
+            }
+
+            guaranteedSpawns.Dequeue();
+        }
+
+        int totalAvailable = 0;
+
+        for (int i = 0; i < remainingByType.Length; i++)
+        {
+            EnemyType type = (EnemyType)i;
+
+            if (IsTypeUnlocked(type))
+                totalAvailable += remainingByType[i];
+        }
+
+        if (totalAvailable == 0)
+        {
+            selectedType = default;
+            isGuaranteed = false;
+            return false;
+        }
+
+        int randomValue = Random.Range(0, totalAvailable);
+
+        for (int i = 0; i < remainingByType.Length; i++)
+        {
+            EnemyType type = (EnemyType)i;
+
+            if (!IsTypeUnlocked(type))
+                continue;
+
+            randomValue -= remainingByType[i];
+
+            if (randomValue < 0)
+            {
+                selectedType = type;
+                isGuaranteed = false;
+                return true;
+            }
+        }
+
+        selectedType = default;
+        isGuaranteed = false;
+        return false;
+    }
+
+    private bool IsTypeUnlocked(EnemyType type)
+    {
+        return type switch
+        {
+            EnemyType.Fast => true,
+            EnemyType.Flyer => flyersUnlocked,
+            EnemyType.Tank => tanksUnlocked,
+            _ => false
+        };
+    }
+
+    private GameObject GetPrefab(EnemyType type)
+    {
+        return type switch
+        {
+            EnemyType.Fast => fastPrefab,
+            EnemyType.Flyer => flyerPrefab,
+            EnemyType.Tank => tankPrefab,
+            _ => null
+        };
+    }
+
+    private bool TryChooseSpawnPoint(out Transform spawnPoint)
+    {
+        // Primero se elige izquierda o derecha; luego un punto de ese lado.
+        bool chooseLeft = Random.value < 0.5f;
+        Transform[] sidePoints = chooseLeft
+            ? leftSpawnPoints
+            : rightSpawnPoints;
+
+        List<Transform> validPoints = new();
+
+        if (sidePoints != null)
+        {
+            foreach (Transform point in sidePoints)
+            {
+                if (point != null)
+                    validPoints.Add(point);
+            }
+        }
+
+        if (validPoints.Count == 0)
+        {
+            Debug.LogWarning(
+                $"No hay puntos asignados en el lado " +
+                $"{(chooseLeft ? "izquierdo" : "derecho")}.",
+                this
+            );
+
+            spawnPoint = null;
+            return false;
+        }
+
+        spawnPoint = validPoints[Random.Range(0, validPoints.Count)];
+        return true;
     }
 
     private void OnEnemyReturnedToPool(EnemyController enemy)
     {
+        if (enemy == null)
+            return;
+
         enemy.ReturnedToPool -= OnEnemyReturnedToPool;
         activeEnemies.Remove(enemy);
 
-        if (activeEnemies.Count == 0 && !transitionRunning)
-            StartCoroutine(AdvancePhaseAfterDelay());
+        CheckCompletion();
     }
 
-    private IEnumerator AdvancePhaseAfterDelay()
+    private void CheckCompletion()
     {
-        transitionRunning = true;
-        yield return new WaitForSeconds(delayBetweenPhases);
+        if (completionInvoked || !isSpawning)
+            return;
 
-        int nextPhase = currentPhaseIndex + 1;
+        foreach (int remaining in remainingByType)
+        {
+            if (remaining > 0)
+                return;
+        }
 
-        if (nextPhase < phases.Length)
-        {
-            transitionRunning = false;
-            StartPhase(nextPhase);
-        }
-        else
-        {
-            Debug.Log("Se completaron todas las fases.", this);
-            onAllPhasesCleared?.Invoke();
-        }
+        if (activeEnemies.Count > 0)
+            return;
+
+        completionInvoked = true;
+        isSpawning = false;
+
+        Debug.Log("Todos los enemigos de esta escena fueron derrotados.", this);
+        onAllEnemiesDefeated?.Invoke();
+    }
+
+    private float GetRandomSpawnInterval()
+    {
+        float min = Mathf.Min(minSpawnInterval, maxSpawnInterval);
+        float max = Mathf.Max(minSpawnInterval, maxSpawnInterval);
+
+        return Random.Range(min, max);
     }
 }

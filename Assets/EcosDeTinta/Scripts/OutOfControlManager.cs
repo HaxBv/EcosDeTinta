@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,44 +6,106 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PlayerStats))]
 public class OutOfControlManager : MonoBehaviour
 {
+    private static readonly int AbilityHash =
+    Animator.StringToHash("Ability");
+    [SerializeField] private MovementController movement;
+    [SerializeField] private Animator characterAnimator;
+    [Header("Intervalo de habilidad de Shadow")]
+    [SerializeField] private float shadowMinInterval = 2f;
+    [SerializeField] private float shadowMaxInterval = 4f;
+
+    private float nextShadowAbilityTime = -1f;
     [Header("Referencias")]
     [SerializeField] private PlayerStats stats;
     [SerializeField] private FormChanger formChanger;
     [SerializeField] private Button[] formButtons;
 
-    [Header("Formas: 0 = Inkman; 1-3 = transformaciones")]
+    [Header("Formas: 0 = Inkman, 1 = Maximwolf, 2 = Shadow, 3 = Zero")]
     [SerializeField] private FormData[] forms = new FormData[4];
+    [Header("Intervalo de cambio de Inkman")]
+    [SerializeField, Min(0.1f)] private float inkmanMinChangeInterval = 3f;
+    [SerializeField, Min(0.1f)] private float inkmanMaxChangeInterval = 4f;
 
+    private float nextInkmanChangeTime;
     [Header("Control")]
-    [SerializeField] private float maxControl = 100f;
-    [SerializeField] private float controlLossPerSecond = 5f;
-    [SerializeField] private float outOfControlDuration = 9f;
+    [SerializeField, Min(1f)] private float maxControl = 100f;
+    [SerializeField, Min(0f)] private float controlLossPerSecond = 5f;
+    [SerializeField, Min(0.1f)] private float outOfControlDuration = 15f;
 
+    [ShowInInspector]
     public float CurrentControl { get; private set; }
     public bool IsOutOfControl { get; private set; }
 
-    // Los controladores de movimiento, ataque y habilidad escucharán este evento.
     public event Action<FormData, bool> FormEffectChanged;
     public event Action<float, float> ControlChanged;
-    public event Action<bool> FormChangeAvailabilityChanged;
 
-    private float outOfControlTimer;
-    private int formBeforeOutOfControl;
+    private float timer;
+    private int startingFormIndex;
     private bool startedAsInkman;
 
     private int[] inkmanFormOrder;
-    private int inkmanFormsVisited;
-    private int currentInkmanOrderIndex;
-    private float nextInkmanChangeTime;
+    private int currentInkmanOrderIndex = -1;
+
+    public float MaxControl => maxControl;
+    public float OutOfControlDuration => outOfControlDuration;
+    public float OutOfControlTimeRemaining =>
+        IsOutOfControl ? Mathf.Max(0f, timer) : 0f;
 
     private void Awake()
     {
         if (stats == null)
             stats = GetComponent<PlayerStats>();
 
+        if (formChanger == null)
+            formChanger = GetComponent<FormChanger>();
+
+        if (characterAnimator == null)
+            characterAnimator = GetComponentInChildren<Animator>(true);
         CurrentControl = maxControl;
+        movement = GetComponent<MovementController>();
+
+    }
+    private void UpdateShadowAbility()
+    {
+        if (!IsOutOfControl ||
+            stats.CurrentForm == null ||
+            stats.CurrentForm.FormName != "Shadow" ||
+            Time.time < nextShadowAbilityTime)
+        {
+            return;
+        }
+
+        if (characterAnimator == null)
+        {
+            Debug.LogError("OutOfControlManager no encontró el Animator.", this);
+            return;
+        }
+
+        characterAnimator.ResetTrigger(AbilityHash);
+        characterAnimator.SetTrigger(AbilityHash);
+        movement.LockMovement();
+        nextShadowAbilityTime = Time.time + GetRandomShadowInterval();
     }
 
+    private float GetRandomShadowInterval()
+    {
+        float min = Mathf.Min(shadowMinInterval, shadowMaxInterval);
+        float max = Mathf.Max(shadowMinInterval, shadowMaxInterval);
+
+        return UnityEngine.Random.Range(min, max);
+    }
+
+    private void NotifyFormEffectChanged(FormData form, bool isActive)
+    {
+        if (form != null && form.FormName == "Shadow")
+        {
+            nextShadowAbilityTime = isActive
+                ? Time.time + GetRandomShadowInterval()
+                : -1f;
+        }
+
+        FormEffectChanged?.Invoke(form, isActive);
+    }
     private void Update()
     {
         if (stats == null || stats.CurrentForm == null)
@@ -54,8 +117,9 @@ public class OutOfControlManager : MonoBehaviour
             return;
         }
 
-        float multiplier = stats.CurrentForm.ControlLossMultiplier;
-        float loss = controlLossPerSecond * multiplier * Time.deltaTime;
+        float loss = controlLossPerSecond
+            * stats.CurrentForm.ControlLossMultiplier
+            * Time.deltaTime;
 
         CurrentControl = Mathf.Max(0f, CurrentControl - loss);
         ControlChanged?.Invoke(CurrentControl, maxControl);
@@ -66,78 +130,76 @@ public class OutOfControlManager : MonoBehaviour
 
     private void BeginOutOfControl()
     {
-        int currentIndex = GetCurrentFormIndex();
+        startingFormIndex = GetCurrentFormIndex();
 
-        if (currentIndex < 0)
+        if (startingFormIndex < 0)
         {
-            Debug.LogError("La forma actual no está asignada en el arreglo forms.", this);
+            Debug.LogError(
+                "La forma actual no está asignada en el arreglo Forms del OutOfControlManager.",
+                this
+            );
             return;
         }
 
         IsOutOfControl = true;
-        formBeforeOutOfControl = currentIndex;
-        startedAsInkman = currentIndex == 0;
-        outOfControlTimer = outOfControlDuration;
-
-        SetFormButtonsInteractable(false);
-        FormChangeAvailabilityChanged?.Invoke(false);
+        timer = outOfControlDuration;
+        startedAsInkman = startingFormIndex == 0;
+        SetFormButtons(false);
 
         if (startedAsInkman)
         {
-            PrepareInkmanFormOrder();
-            inkmanFormsVisited = 0;
-            currentInkmanOrderIndex = -1;
-
-            // Entra inmediatamente en una transformación.
-            ChangeInkmanForm();
-            nextInkmanChangeTime = outOfControlDuration / 3f;
+            ChangeToNextInkmanForm();
+            nextInkmanChangeTime = Time.time + GetRandomInkmanInterval();
         }
         else
         {
-            FormEffectChanged?.Invoke(stats.CurrentForm, true);
+            NotifyFormEffectChanged(stats.CurrentForm, true);
         }
 
-        Debug.Log(
-            $"Pérdida de control iniciada en {stats.CurrentForm.FormName}.",
-            this
-        );
+        Debug.Log($"Pérdida de control: {stats.CurrentForm.FormName}", this);
     }
+    private float GetRandomInkmanInterval()
+    {
+        float min = Mathf.Min(inkmanMinChangeInterval, inkmanMaxChangeInterval);
+        float max = Mathf.Max(inkmanMinChangeInterval, inkmanMaxChangeInterval);
 
+        return UnityEngine.Random.Range(min, max);
+    }
     private void UpdateOutOfControl()
     {
-        outOfControlTimer -= Time.deltaTime;
+        timer -= Time.deltaTime;
 
-        if (startedAsInkman)
+        if (startedAsInkman &&
+            timer > 0f &&
+            Time.time >= nextInkmanChangeTime)
         {
-            float elapsed = outOfControlDuration - outOfControlTimer;
-
-            if (inkmanFormsVisited < 3 && elapsed >= nextInkmanChangeTime)
-            {
-                ChangeInkmanForm();
-                nextInkmanChangeTime = outOfControlDuration
-                    * (inkmanFormsVisited + 1) / 3f;
-            }
+            ChangeToNextInkmanForm();
+            nextInkmanChangeTime = Time.time + GetRandomInkmanInterval();
         }
 
-        if (outOfControlTimer <= 0f)
+        UpdateShadowAbility();
+
+        if (timer <= 0f)
             EndOutOfControl();
     }
-
-    private void ChangeInkmanForm()
+    private void ChangeToNextInkmanForm()
     {
-        if (currentInkmanOrderIndex >= 0)
-            FormEffectChanged?.Invoke(stats.CurrentForm, false);
+        NotifyFormEffectChanged(stats.CurrentForm, false);
 
-        currentInkmanOrderIndex++;
-        inkmanFormsVisited++;
+        int currentIndex = GetCurrentFormIndex();
+        int nextIndex;
 
-        int nextFormIndex = inkmanFormOrder[currentInkmanOrderIndex];
-        formChanger.ChangeFormForced(nextFormIndex);
+        do
+        {
+            nextIndex = UnityEngine.Random.Range(1, forms.Length);
+        }
+        while (nextIndex == currentIndex);
 
-        FormEffectChanged?.Invoke(stats.CurrentForm, true);
+        formChanger.ChangeFormForced(nextIndex);
+        NotifyFormEffectChanged(stats.CurrentForm, true);
 
         Debug.Log(
-            $"Inkman fuera de control cambió a {stats.CurrentForm.FormName}.",
+            $"Inkman cambió automáticamente a {stats.CurrentForm.FormName}.",
             this
         );
     }
@@ -145,21 +207,29 @@ public class OutOfControlManager : MonoBehaviour
     private void EndOutOfControl()
     {
         if (stats.CurrentForm != null)
-            FormEffectChanged?.Invoke(stats.CurrentForm, false);
+            NotifyFormEffectChanged(stats.CurrentForm, false);
 
-        if (startedAsInkman)
-            formChanger.ChangeFormForced(0);
-        else
-            formChanger.ChangeFormForced(formBeforeOutOfControl);
+        formChanger.ChangeFormForced(startingFormIndex);
 
         IsOutOfControl = false;
         CurrentControl = maxControl;
 
-        SetFormButtonsInteractable(true);
-        FormChangeAvailabilityChanged?.Invoke(true);
+        SetFormButtons(true);
         ControlChanged?.Invoke(CurrentControl, maxControl);
 
         Debug.Log("Terminó la pérdida de control.", this);
+    }
+
+    private void PrepareInkmanFormOrder()
+    {
+        inkmanFormOrder = new[] { 1, 2, 3 };
+
+        for (int i = inkmanFormOrder.Length - 1; i > 0; i--)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, i + 1);
+            (inkmanFormOrder[i], inkmanFormOrder[randomIndex]) =
+                (inkmanFormOrder[randomIndex], inkmanFormOrder[i]);
+        }
     }
 
     private int GetCurrentFormIndex()
@@ -173,20 +243,7 @@ public class OutOfControlManager : MonoBehaviour
         return -1;
     }
 
-    private void PrepareInkmanFormOrder()
-    {
-        inkmanFormOrder = new[] { 1, 2, 3 };
-
-        // Baraja el orden, pero garantiza que Inkman pase por las tres formas.
-        for (int i = inkmanFormOrder.Length - 1; i > 0; i--)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, i + 1);
-            (inkmanFormOrder[i], inkmanFormOrder[randomIndex]) =
-                (inkmanFormOrder[randomIndex], inkmanFormOrder[i]);
-        }
-    }
-
-    private void SetFormButtonsInteractable(bool value)
+    private void SetFormButtons(bool interactable)
     {
         if (formButtons == null)
             return;
@@ -194,7 +251,7 @@ public class OutOfControlManager : MonoBehaviour
         foreach (Button button in formButtons)
         {
             if (button != null)
-                button.interactable = value;
+                button.interactable = interactable;
         }
     }
 }

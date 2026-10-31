@@ -1,40 +1,79 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
 public class ObjectPooling : MonoBehaviour
 {
-    [Header("Object Pooling")]
-    [SerializeField] private GameObject Reference;
-    [SerializeField] private Transform PoolPosition;
-    [SerializeField] private int InitialAmount = 10;
-    [SerializeField] private int ExpansionAmount = 10;
+    [Serializable]
+    private class PoolEntry
+    {
+        public GameObject prefab;
+        [Min(0)] public int initialAmount = 5;
+    }
 
-    private readonly Stack<GameObject> pool = new Stack<GameObject>();
-    private readonly HashSet<GameObject> availableObjects = new HashSet<GameObject>();
+    [Header("Pools")]
+    [SerializeField] private PoolEntry[] pools;
+    [SerializeField] private Transform poolPosition;
+    [Min(1)]
+    [SerializeField] private int expansionAmount = 5;
 
-    private Transform PoolParent =>
-        PoolPosition != null ? PoolPosition : transform;
+    private readonly Dictionary<GameObject, Stack<GameObject>> availableByPrefab = new();
+    private readonly Dictionary<GameObject, GameObject> prefabByInstance = new();
+    private readonly HashSet<GameObject> availableObjects = new();
+
+    private Transform PoolParent => poolPosition != null ? poolPosition : transform;
 
     private void Awake()
     {
-        AddObjects(InitialAmount);
+        if (pools == null)
+            return;
+
+        foreach (PoolEntry entry in pools)
+        {
+            if (entry == null || entry.prefab == null)
+            {
+                Debug.LogError("Hay un pool sin prefab asignado.", this);
+                continue;
+            }
+
+            if (availableByPrefab.ContainsKey(entry.prefab))
+            {
+                Debug.LogWarning(
+                    $"El prefab {entry.prefab.name} está repetido en Pools.",
+                    this
+                );
+                continue;
+            }
+
+            availableByPrefab.Add(entry.prefab, new Stack<GameObject>());
+            AddObjects(entry.prefab, entry.initialAmount);
+        }
     }
 
-    [Button]
-    public GameObject GetObject()
-    {
-        return GetObject(PoolParent.position, Quaternion.identity);
-    }
-
-    // El spawner puede dejarlo inactivo mientras lo configura.
     public GameObject GetObject(
+        GameObject prefab,
         Vector3 position,
         Quaternion rotation,
         bool activate = true)
     {
+        if (prefab == null)
+        {
+            Debug.LogError("Se intentó solicitar un objeto con prefab nulo.", this);
+            return null;
+        }
+
+        if (!availableByPrefab.TryGetValue(prefab, out Stack<GameObject> pool))
+        {
+            Debug.LogError(
+                $"El prefab {prefab.name} no está registrado en Pools.",
+                prefab
+            );
+            return null;
+        }
+
         if (pool.Count == 0)
-            AddObjects(ExpansionAmount);
+            AddObjects(prefab, expansionAmount);
 
         if (pool.Count == 0)
             return null;
@@ -42,7 +81,8 @@ public class ObjectPooling : MonoBehaviour
         GameObject obj = pool.Pop();
         availableObjects.Remove(obj);
 
-        obj.transform.SetParent(null, true);
+        obj.transform.SetParent(null, false);
+        obj.transform.localScale = prefab.transform.localScale;
         obj.transform.SetPositionAndRotation(position, rotation);
 
         if (activate)
@@ -57,33 +97,41 @@ public class ObjectPooling : MonoBehaviour
         if (obj == null || availableObjects.Contains(obj))
             return;
 
+        if (!prefabByInstance.TryGetValue(obj, out GameObject prefab) ||
+            !availableByPrefab.TryGetValue(prefab, out Stack<GameObject> pool))
+        {
+            Debug.LogWarning(
+                $"{obj.name} no pertenece a este ObjectPooling.",
+                obj
+            );
+            return;
+        }
+
         obj.SetActive(false);
         obj.transform.SetParent(PoolParent, false);
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale = prefab.transform.localScale;
 
         availableObjects.Add(obj);
         pool.Push(obj);
     }
 
-    private void AddObjects(int amount)
+    private void AddObjects(GameObject prefab, int amount)
     {
-        if (Reference == null)
-        {
-            Debug.LogError("Asigna un prefab en Reference.", this);
+        if (amount <= 0)
             return;
-        }
+
+        if (!availableByPrefab.TryGetValue(prefab, out Stack<GameObject> pool))
+            return;
 
         for (int i = 0; i < amount; i++)
         {
-            GameObject obj = Instantiate(
-                Reference,
-                PoolParent.position,
-                Quaternion.identity,
-                PoolParent
-            );
-
+            GameObject obj = Instantiate(prefab, PoolParent);
+            obj.name = prefab.name;
             obj.SetActive(false);
+
+            prefabByInstance[obj] = prefab;
             availableObjects.Add(obj);
             pool.Push(obj);
         }

@@ -31,6 +31,7 @@ public class AttackController : MonoBehaviour
 
     public event Action<Collider, float> TargetHit;
 
+    [SerializeField] private float projectileForwardOffset = 0.7f;
     [SerializeField] private float maximwolfDamageMultiplier = 1.5f;
     [SerializeField] private float maximwolfCooldownMultiplier = 0.65f;
     [SerializeField] private float zeroBulletSeparation = 0.12f;
@@ -178,8 +179,18 @@ public class AttackController : MonoBehaviour
         hitbox.enabled = false;
         hitboxRoutine = null;
     }
-
     private void LaunchProjectile(FormData form)
+    {
+        if (!zeroOutOfControl)
+        {
+            LaunchSingleProjectile(form, 0f);
+            return;
+        }
+
+        LaunchSingleProjectile(form, -zeroBulletSeparation);
+        LaunchSingleProjectile(form, zeroBulletSeparation);
+    }
+    private void LaunchSingleProjectile(FormData form, float verticalOffset)
     {
         if (form.ProjectileSprite == null)
         {
@@ -192,21 +203,25 @@ public class AttackController : MonoBehaviour
 
         if (projectileLaunchPoint == null)
         {
-            Debug.LogError(
-                "Asigna Projectile Launch Point en AttackController.",
-                this
-            );
+            Debug.LogError("Asigna Projectile Launch Point en AttackController.", this);
             return;
         }
 
-        Vector3 direction =
-            Vector3.right * movement.FacingDirection;
+        Vector3 direction = Vector3.right * movement.FacingDirection;
 
-        GameObject projectileObject = new GameObject(
-            $"{form.FormName}_Projectile"
-        );
+        GameObject projectileObject =
+            new GameObject($"{form.FormName}_Projectile");
 
-        projectileObject.transform.position = projectileLaunchPoint.position;
+        Vector3 spawnPosition = projectileLaunchPoint.position;
+
+        // El punto de salida cambia de lado según hacia dónde mira el personaje.
+        spawnPosition.x = transform.root.position.x
+            + projectileForwardOffset * movement.FacingDirection;
+
+        // Separa verticalmente las balas de Zero.
+        spawnPosition.y += verticalOffset;
+
+        projectileObject.transform.position = spawnPosition;
 
         BoxCollider projectileCollider =
             projectileObject.AddComponent<BoxCollider>();
@@ -230,7 +245,7 @@ public class AttackController : MonoBehaviour
             visualObject.transform.rotation = playerSpriteRenderer.transform.rotation;
 
         SpriteRenderer projectileRenderer =
-    visualObject.AddComponent<SpriteRenderer>();
+            visualObject.AddComponent<SpriteRenderer>();
 
         projectileRenderer.sprite = form.ProjectileSprite;
         projectileRenderer.flipX = movement.FacingDirection < 0;
@@ -244,7 +259,6 @@ public class AttackController : MonoBehaviour
                 playerSpriteRenderer.sortingOrder + 1;
         }
 
-        // Añade el Animator al mismo objeto que tiene el SpriteRenderer.
         if (form.AnimatorProyectile != null)
         {
             Animator projectileAnimator =
@@ -256,6 +270,9 @@ public class AttackController : MonoBehaviour
             projectileAnimator.applyRootMotion = false;
         }
 
+        float damage = form.AttackDamage *
+            (maximwolfOutOfControl ? maximwolfDamageMultiplier : 1f);
+
         PlayerProjectile projectile =
             projectileObject.AddComponent<PlayerProjectile>();
 
@@ -263,10 +280,10 @@ public class AttackController : MonoBehaviour
             direction,
             form.ProjectileSpeed,
             form.ProjectileLifetime,
-            form.AttackDamage,
+            damage,
             targetLayers,
             transform.root,
-            (collider, damage) => TargetHit?.Invoke(collider, damage)
+            (collider, hitDamage) => TargetHit?.Invoke(collider, hitDamage)
         );
 
         Debug.Log($"Proyectil de {form.FormName} lanzado.", projectileObject);
@@ -292,8 +309,8 @@ public class AttackController : MonoBehaviour
         {
             return;
         }
-
-        float damage = activeAttackForm.AttackDamage;
+        float damage = activeAttackForm.AttackDamage *
+    (maximwolfOutOfControl ? maximwolfDamageMultiplier : 1f);
 
         enemy.TakeDamage(damage, transform.root.position);
         TargetHit?.Invoke(other, damage);

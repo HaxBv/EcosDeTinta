@@ -9,8 +9,6 @@ public class ShadowDaggerProjectile : MonoBehaviour
 
     [Header("Sprite")]
     [SerializeField] private Transform visual;
-
-    // Si el dibujo de la daga apunta hacia arriba, prueba -90.
     [SerializeField] private float visualRotationOffsetZ;
 
     private Transform owner;
@@ -24,9 +22,10 @@ public class ShadowDaggerProjectile : MonoBehaviour
     private float damage;
     private float speed;
     private float maxDistance;
-    private float splitAngle;
+    private float splitAngleStep;
     private float splitDamageMultiplier;
     private float splitSpawnOffset;
+    private int splitCount;
 
     private float distanceTravelled;
     private bool splitsOnImpact;
@@ -53,9 +52,10 @@ public class ShadowDaggerProjectile : MonoBehaviour
         bool shouldSplit,
         EnemyController enemyToIgnore,
         ShadowDaggerProjectile projectileToSpawn,
-        float childSplitAngle,
+        float childSplitAngleStep,
         float childDamageMultiplier,
         float childSpawnOffset,
+        int childDaggerCount,
         Action<Collider, float> hitCallback)
     {
         direction = launchDirection.normalized;
@@ -67,9 +67,10 @@ public class ShadowDaggerProjectile : MonoBehaviour
         splitsOnImpact = shouldSplit;
         excludedEnemy = enemyToIgnore;
         splitPrefab = projectileToSpawn;
-        splitAngle = childSplitAngle;
+        splitAngleStep = childSplitAngleStep;
         splitDamageMultiplier = childDamageMultiplier;
         splitSpawnOffset = childSpawnOffset;
+        splitCount = Mathf.Max(0, childDaggerCount);
         onHit = hitCallback;
 
         initialized = true;
@@ -83,11 +84,13 @@ public class ShadowDaggerProjectile : MonoBehaviour
 
         float step = speed * Time.deltaTime;
 
+        // direction.y representa profundidad Z, no altura.
         transform.position += new Vector3(
             direction.x,
             0f,
             direction.y
         ) * step;
+
         distanceTravelled += step;
 
         UpdateVisualRotation();
@@ -108,16 +111,26 @@ public class ShadowDaggerProjectile : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            EnemyController enemy = hit.GetComponentInParent<EnemyController>();
+            EnemyController enemy =
+                hit.GetComponentInParent<EnemyController>();
 
-            if (enemy == null || enemy == excludedEnemy || hitEnemies.Contains(enemy))
+            if (enemy == null ||
+                enemy == excludedEnemy ||
+                hitEnemies.Contains(enemy))
+            {
                 continue;
+            }
 
             if (owner != null && enemy.transform.root == owner.root)
                 continue;
 
             hitEnemies.Add(enemy);
-            enemy.TakeDamage(damage, owner != null ? owner.position : transform.position);
+
+            enemy.TakeDamage(
+                damage,
+                owner != null ? owner.position : transform.position
+            );
+
             onHit?.Invoke(hit, damage);
 
             if (splitsOnImpact)
@@ -130,22 +143,35 @@ public class ShadowDaggerProjectile : MonoBehaviour
 
     private void Split(EnemyController enemyHit)
     {
-        if (splitPrefab == null)
+        if (splitPrefab == null || splitCount <= 0)
         {
-            Debug.LogWarning("Asigna el prefab de daga para la división.", this);
+            Debug.LogWarning(
+                "La daga necesita un prefab y una cantidad de divisiones mayor que cero.",
+                this
+            );
             return;
         }
 
-        SpawnChild(direction, enemyHit);
-        SpawnChild(Rotate(direction, splitAngle), enemyHit);
-        SpawnChild(Rotate(direction, -splitAngle), enemyHit);
+        // Ejemplo con 5: -2, -1, 0, +1 y +2 pasos de ángulo.
+        float centerIndex = (splitCount - 1) * 0.5f;
+
+        for (int i = 0; i < splitCount; i++)
+        {
+            float angle =
+                (i - centerIndex) * splitAngleStep;
+
+            Vector2 childDirection = Rotate(direction, angle);
+            SpawnChild(childDirection, enemyHit);
+        }
     }
+
     private void SpawnChild(
-    Vector2 childDirection,
-    EnemyController enemyToIgnore)
+        Vector2 childDirection,
+        EnemyController enemyToIgnore)
     {
+        // El abanico se abre en XZ y conserva la altura Y.
         Vector3 spawnPosition = transform.position
-            + new Vector3(childDirection.x, childDirection.y, 0f)
+            + new Vector3(childDirection.x, 0f, childDirection.y)
             * splitSpawnOffset;
 
         ShadowDaggerProjectile child = Instantiate(
@@ -162,14 +188,16 @@ public class ShadowDaggerProjectile : MonoBehaviour
             speed,
             maxDistance,
             false,
-            enemyToIgnore, // Ignora al enemigo que recibió el impacto inicial.
+            enemyToIgnore,
             null,
-            splitAngle,
+            splitAngleStep,
             splitDamageMultiplier,
             splitSpawnOffset,
+            0,
             onHit
         );
     }
+
     private static Vector2 Rotate(Vector2 vector, float angle)
     {
         float radians = angle * Mathf.Deg2Rad;
@@ -187,8 +215,8 @@ public class ShadowDaggerProjectile : MonoBehaviour
         if (visual == null || direction.sqrMagnitude < 0.001f)
             return;
 
-        // Esta fórmula asume que la punta de la daga apunta hacia +X.
-        float angleZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angleZ =
+            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         visual.localRotation = Quaternion.Euler(
             visualBaseEuler.x,

@@ -12,10 +12,12 @@ public class MovementController : MonoBehaviour
     private bool zeroOutOfControl;
 
     [Header("Dash fuera de control de Zero")]
+    [SerializeField] private int zeroDashDirection = 1;
     [SerializeField] private float zeroDashInterval = 2f;
     [SerializeField] private float zeroDashDuration = 0.2f;
     [SerializeField] private float zeroDashSpeed = 12f;
-
+    private bool wasZeroOutOfControl;
+    private bool isZeroDashing;
     private float zeroDashCooldown;
     private float zeroDashRemaining;
     private PlayerStats stats;
@@ -137,15 +139,46 @@ public class MovementController : MonoBehaviour
     }
     private void UpdateZeroDash(float deltaTime)
     {
-        if (!zeroOutOfControl)
+        string formName = stats.CurrentForm != null
+            ? stats.CurrentForm.FormName
+            : string.Empty;
+
+        bool isZero =
+            formName.Equals("Zero", StringComparison.OrdinalIgnoreCase) ||
+            formName.Equals("Zeroes", StringComparison.OrdinalIgnoreCase);
+
+        bool zeroIsOutOfControl =
+            outOfControlManager != null &&
+            outOfControlManager.IsOutOfControl &&
+            isZero;
+
+        if (zeroIsOutOfControl != wasZeroOutOfControl)
+        {
+            wasZeroOutOfControl = zeroIsOutOfControl;
+            zeroDashCooldown = zeroDashInterval;
+
+            if (!zeroIsOutOfControl)
+            {
+                isZeroDashing = false;
+                zeroDashRemaining = 0f;
+            }
+
+            Debug.Log($"Dash de Zero activo: {zeroIsOutOfControl}", this);
+        }
+
+        if (!zeroIsOutOfControl || isZeroDashing)
             return;
 
         zeroDashCooldown -= deltaTime;
 
         if (zeroDashCooldown <= 0f)
         {
+            zeroDashDirection = FacingDirection;
             zeroDashRemaining = zeroDashDuration;
+            isZeroDashing = true;
             zeroDashCooldown = zeroDashInterval;
+
+            Debug.Log($"¡Zero inició el dash hacia {zeroDashDirection}!", this);
         }
     }
     private void UpdateFacingDirection()
@@ -175,7 +208,9 @@ public class MovementController : MonoBehaviour
         if (characterAnimator == null)
             return;
 
-        bool isRunning = isSprinting && moveInput.sqrMagnitude > 0.01f;
+        bool isRunning = isZeroDashing ||
+            (isSprinting && moveInput.sqrMagnitude > 0.01f);
+
         characterAnimator.SetBool(RunningHash, isRunning);
     }
     private void OnMove(Vector2 value)
@@ -262,12 +297,10 @@ public class MovementController : MonoBehaviour
     }
     private void ApplyMovement(float deltaTime)
     {
-        if (zeroDashRemaining > 0f)
+        // Determina el movimiento horizontal.
+        if (isZeroDashing && zeroDashRemaining > 0f)
         {
-            horizontalVelocity =
-                Vector3.right * FacingDirection * zeroDashSpeed;
-
-            zeroDashRemaining -= deltaTime;
+            horizontalVelocity = Vector3.right * zeroDashDirection * zeroDashSpeed;
         }
         else if (ShouldStopHorizontalMovement)
         {
@@ -295,7 +328,7 @@ public class MovementController : MonoBehaviour
             );
         }
 
-        // El salto y la gravedad siguen activos.
+        // El salto y la gravedad siguen activos durante el dash.
         if (wasGrounded && verticalVelocity < 0f)
             verticalVelocity = groundedStickForce;
         else
@@ -304,6 +337,19 @@ public class MovementController : MonoBehaviour
         controller.Move(
             (horizontalVelocity + Vector3.up * verticalVelocity) * deltaTime
         );
+
+        // Descuenta el tiempo del dash después de aplicar su movimiento.
+        if (isZeroDashing)
+        {
+            zeroDashRemaining -= deltaTime;
+
+            if (zeroDashRemaining <= 0f)
+            {
+                zeroDashRemaining = 0f;
+                isZeroDashing = false;
+                horizontalVelocity = Vector3.zero;
+            }
+        }
 
         bool grounded = controller.isGrounded;
 

@@ -5,7 +5,9 @@ public class AttackAnimationEventRelay : MonoBehaviour
     private AttackController attackController;
     private AbilityController abilityController;
 
-    
+    private MovementController movement;
+
+
 
     public void LaunchZeroMissilesFromAnimation()
     {
@@ -24,6 +26,8 @@ public class AttackAnimationEventRelay : MonoBehaviour
             Debug.LogError("No se encontró AbilityController bajo Player.", this);
         if (attackController == null)
             Debug.LogError("No se encontró AttackController bajo Player.", this);
+
+        movement = transform.root.GetComponent<MovementController>();
     }
 
     public void ActivateHitboxFromAnimation()
@@ -44,6 +48,8 @@ public class AttackAnimationEventRelay : MonoBehaviour
     public void FinishAbilityAnimation()
     {
         abilityController?.FinishAbilityAnimation();
+
+        movement?.UnlockMovement();
     }
     public void ActivateMaximwolfHitboxFromAnimation()
     {

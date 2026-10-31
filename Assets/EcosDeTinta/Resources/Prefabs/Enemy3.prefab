@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3692474890806164442}
   - component: {fileID: 8778353250601264594}
   - component: {fileID: 5761861845606686429}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,14 +124,14 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 0
   stunDuration: 0.2
-  followSpeed: 4
+  followSpeed: 2.5
   spriteRenderer: {fileID: 6222447667355742172}
-  knockbackDistance: 1.2
-  knockbackHeight: 0.5
+  knockbackDistance: 0.5
+  knockbackHeight: 0.2
   knockbackDuration: 0.25
   redFlashDuration: 0.2
-  knockbackHorizontalForce: 6
-  knockbackUpwardForce: 4
+  knockbackHorizontalForce: 3
+  knockbackUpwardForce: 2
   deathFlashCount: 4
   deathFlashInterval: 0.08
 --- !u!54 &3055500842406233849
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 4209564524920769386}
   - component: {fileID: 7361409077999625503}
   - component: {fileID: 3859577487056376518}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 7587318710009629800}
   - component: {fileID: 1261305101763474016}
   m_Layer: 6
-  m_Name: Hurbox
+  m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 6222447667355742172}
   - component: {fileID: 1104741401006865759}
   - component: {fileID: 8462082755420657296}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

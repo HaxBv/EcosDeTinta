@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025551366562210812}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.23971, y: -0.032080054, z: 1.08394}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000086426735}
+  m_LocalPosition: {x: 1.9887455, y: -0.032079935, z: 1.8377898}
   m_LocalScale: {x: 1.9639729, y: 1.9639729, z: 1.9639729}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 1859244741769076917}
   - {fileID: 1139476704641042007}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &3764495319038389620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,12 +59,12 @@ MonoBehaviour:
   stunDuration: 0.2
   followSpeed: 1.5
   spriteRenderer: {fileID: 5965196283775778149}
-  knockbackDistance: 1.2
-  knockbackHeight: 0.5
+  knockbackDistance: 0.5
+  knockbackHeight: 0.2
   knockbackDuration: 0.25
   redFlashDuration: 0.2
-  knockbackHorizontalForce: 6
-  knockbackUpwardForce: 4
+  knockbackHorizontalForce: 3
+  knockbackUpwardForce: 2
   deathFlashCount: 4
   deathFlashInterval: 0.08
 --- !u!54 &3186281116304421497
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 1859244741769076917}
   - component: {fileID: 7486305614687349031}
   - component: {fileID: 2928504971725079400}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 4185614543210302780}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00000012139607, y: 0.5, z: 0.7293503}
+  m_LocalPosition: {x: 0.00000013353561, y: 0.5, z: 0.93301916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 1139476704641042007}
   - component: {fileID: 2964944542361730035}
   m_Layer: 6
-  m_Name: Hurbox
+  m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 2109917445273185000}
   - component: {fileID: 2780075003847319662}
   - component: {fileID: 3446112934872849740}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ Transform:
   m_GameObject: {fileID: 7715620512981991367}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0000001213961, y: 0.5, z: 0.7293503}
+  m_LocalPosition: {x: 0.00000013353569, y: 0.5, z: 0.93301916}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 5965196283775778149}
   - component: {fileID: 1251493480674259422}
   - component: {fileID: 3855727860634880911}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
