@@ -1,5 +1,4 @@
 using System.Collections;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
@@ -7,14 +6,16 @@ public class BossSurvivalVictory : MonoBehaviour
 {
     [Header("Mensaje inicial")]
     [SerializeField] private TMP_Text introMessage;
-    [SerializeField, Min(0f)] private float introMessageDuration = 3f;
+
+    [SerializeField] private float introMessageDuration = 3f;
 
     [Header("Supervivencia")]
-    [SerializeField, Min(1f)] private float survivalDuration = 60f;
+    [SerializeField] private float survivalDuration = 60f;
     [SerializeField] private EnemySpawner timedSpawner;
     [SerializeField] private InkQueenMonster queenSpawner;
+    [SerializeField] private UIManager uiManager;
 
-    [SerializeField]private float timer;
+    [SerializeField] private float timer;
     private bool victoryTriggered;
 
     private void Start()
@@ -26,9 +27,7 @@ public class BossSurvivalVictory : MonoBehaviour
     {
         if (introMessage != null)
         {
-            introMessage.text =
-                "Oleada de Jefe\nsobrevive 1 minuto para ganar";
-
+            introMessage.text = "<size=100%>OLEADA DE JEFE</size>\n<size=50%>SOBREVIVE DURANTE 90 SEGUNDOS</size>";
             introMessage.gameObject.SetActive(true);
         }
 
@@ -37,14 +36,16 @@ public class BossSurvivalVictory : MonoBehaviour
         if (introMessage != null)
             introMessage.gameObject.SetActive(false);
 
+        timer = survivalDuration;
+        uiManager?.UpdateBossCountdown(timer);
+
         timedSpawner?.StartSpawning();
         queenSpawner?.StartSpawning();
-
-        timer = survivalDuration;
 
         while (timer > 0f && !victoryTriggered)
         {
             timer -= Time.deltaTime;
+            uiManager?.UpdateBossCountdown(timer);
             yield return null;
         }
 
@@ -54,10 +55,14 @@ public class BossSurvivalVictory : MonoBehaviour
 
     private void CompleteSurvival()
     {
-        victoryTriggered = true;
+        if (victoryTriggered)
+            return;
 
-        timedSpawner?.StopSpawning();
-        queenSpawner?.StopSpawning();
+        victoryTriggered = true;
+        uiManager?.HideBossCountdown();
+
+        timedSpawner?.StopSpawningAndClearEnemies();
+        queenSpawner?.StopSpawningAndClearEnemies();
 
         if (ScenesManager.instance != null)
             ScenesManager.instance.CompleteLevel();

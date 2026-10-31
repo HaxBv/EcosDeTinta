@@ -378,6 +378,25 @@ public class InkQueenMonster : MonoBehaviour
         waitingForWaveClear = false;
         AdvanceToNextWave();
     }
+    public void StopSpawningAndClearEnemies()
+    {
+        StopSpawning();
+
+        foreach (EnemyController enemy in activeEnemies)
+        {
+            if (enemy == null)
+                continue;
+
+            enemy.ReturnedToPool -= OnEnemyReturnedToPool;
+
+            if (enemyPool != null)
+                enemyPool.ReturnObject(enemy.gameObject);
+            else
+                enemy.gameObject.SetActive(false);
+        }
+
+        activeEnemies.Clear();
+    }
     private void OnEnemyReturnedToPool(EnemyController enemy)
     {
         if (enemy == null)

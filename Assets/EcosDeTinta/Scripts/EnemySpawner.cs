@@ -362,7 +362,25 @@ public class EnemySpawner : MonoBehaviour
 
         CheckCompletion();
     }
+    public void StopSpawningAndClearEnemies()
+    {
+        isSpawning = false;
 
+        foreach (EnemyController enemy in activeEnemies)
+        {
+            if (enemy == null)
+                continue;
+
+            enemy.ReturnedToPool -= OnEnemyReturnedToPool;
+
+            if (enemyPool != null)
+                enemyPool.ReturnObject(enemy.gameObject);
+            else
+                enemy.gameObject.SetActive(false);
+        }
+
+        activeEnemies.Clear();
+    }
     private void CheckCompletion()
     {
         if (completionInvoked || !isSpawning)

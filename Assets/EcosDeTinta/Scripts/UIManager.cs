@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,26 @@ public class UIManager : MonoBehaviour
     [Header("Rellenos de las barras")]
     [SerializeField] private Image healthFill;
     [SerializeField] private Image staminaFill;
+    [SerializeField] private TMP_Text bossCountdownText;
 
+    public void UpdateBossCountdown(float secondsRemaining)
+    {
+        if (bossCountdownText == null)
+            return;
+
+        int totalSeconds = Mathf.CeilToInt(Mathf.Max(0f, secondsRemaining));
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        bossCountdownText.text = $"{minutes:00}:{seconds:00}";
+        bossCountdownText.gameObject.SetActive(true);
+    }
+
+    public void HideBossCountdown()
+    {
+        if (bossCountdownText != null)
+            bossCountdownText.gameObject.SetActive(false);
+    }
     private void Awake()
     {
         if (playerStats == null)
