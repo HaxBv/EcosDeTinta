@@ -692,7 +692,7 @@ MonoBehaviour:
   rightSpawnPoints:
   - {fileID: 1150879081}
   - {fileID: 1464651527}
-  startOnPlay: 1
+  startOnPlay: 0
   minRoarInterval: 1
   maxRoarInterval: 2
   onAllWavesCleared:
@@ -934,6 +934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 368624325}
   - component: {fileID: 368624324}
+  - component: {fileID: 368624326}
   m_Layer: 0
   m_Name: SoundExclusiveLvl3
   m_TagString: Untagged
@@ -969,6 +970,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &368624326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368624323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53059b8895b5c994aa75bd9d7de3bfd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossSurvivalVictory
+  introMessage: {fileID: 0}
+  introMessageDuration: 3
+  survivalDuration: 60
+  timedSpawner: {fileID: 866797391}
+  queenSpawner: {fileID: 185115932}
+  timer: 0
 --- !u!1 &431685908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2215,6 +2234,7 @@ MonoBehaviour:
   tankCount: 0
   flyerUnlockTime: 10
   tankUnlockTime: 20
+  startOnPlay: 0
   leftSpawnPoints:
   - {fileID: 2111332958}
   - {fileID: 136019437}

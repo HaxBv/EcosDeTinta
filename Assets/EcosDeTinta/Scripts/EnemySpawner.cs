@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Desbloqueo desde que empieza esta escena")]
     [Min(0f)][SerializeField] private float flyerUnlockTime = 10f;
     [Min(0f)][SerializeField] private float tankUnlockTime = 20f;
+    [SerializeField] private bool startOnPlay = true;
 
     [Header("Puntos de aparición")]
     [SerializeField] private Transform[] leftSpawnPoints = new Transform[2];
@@ -59,7 +60,10 @@ public class EnemySpawner : MonoBehaviour
     [Min(0.1f)][SerializeField] private float retryDelayOnFailure = 0.5f;
 
 
-
+    public void StopSpawning()
+    {
+        isSpawning = false;
+    }
     private void Start()
     {
         if (player == null)
@@ -82,7 +86,8 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        StartSpawning();
+        if (startOnPlay)
+            StartSpawning();
     }
 
 

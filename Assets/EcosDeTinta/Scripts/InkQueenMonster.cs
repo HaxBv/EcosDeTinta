@@ -386,11 +386,7 @@ public class InkQueenMonster : MonoBehaviour
         enemy.ReturnedToPool -= OnEnemyReturnedToPool;
         activeEnemies.Remove(enemy);
 
-        if (!isSpawning || isRoaring)
-            return;
-
-        if (waitingForWaveClear && activeEnemies.Count == 0)
-            AdvanceToNextWave();
+        TryAdvanceAfterQueenWave();
     }
 
     private void OnDestroy()
