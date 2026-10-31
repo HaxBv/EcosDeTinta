@@ -37,8 +37,27 @@ public class AttackAnimationEventRelay : MonoBehaviour
 
     public void ActivateHitboxFromAnimation()
     {
-        attackController?.ActivateHitboxFromAnimation();
+        switch (stats.CurrentForm.FormName)
+        {
+            case "Inkman":
+              //Nothing
+                break;
 
+            case "Maximwolf":
+                //nothing
+                break;
+
+            case "Shadow":
+                //nothing
+                break;
+
+            case "Zero":
+                SoundManager.Instance.PlaySFX(SoundType.SFX, 2);
+                break;
+
+            default:
+                break;
+        }
     }
 
     // Este nombre debe coincidir con el Animation Event del clip.
