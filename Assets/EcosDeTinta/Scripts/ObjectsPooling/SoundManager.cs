@@ -7,6 +7,7 @@ using EcosDeTinta.Collections;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance;
     [FoldoutGroup("References")]
     public MusicDatabase musicDatabase;
     [FoldoutGroup("References")]
@@ -37,7 +38,19 @@ public class SoundManager : MonoBehaviour
     [FoldoutGroup("Music Background")]
     [SerializeField] private int ID;
 
-
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     public static Action<SoundPlayer> OnFinishAudio;
 

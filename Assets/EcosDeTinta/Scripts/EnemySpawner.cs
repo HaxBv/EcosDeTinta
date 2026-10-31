@@ -56,6 +56,8 @@ public class EnemySpawner : MonoBehaviour
     [Min(1)][SerializeField] private int maxEnemiesOnScreen = 5;
     [Min(0.1f)][SerializeField] private float retryDelayOnFailure = 0.5f;
 
+
+
     private void Start()
     {
         if (player == null)
@@ -80,6 +82,8 @@ public class EnemySpawner : MonoBehaviour
 
         StartSpawning();
     }
+
+
     private void Update()
     {
         if (!isSpawning || completionInvoked)

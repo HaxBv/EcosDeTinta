@@ -214,6 +214,8 @@ public class InkQueenMonster : MonoBehaviour
         if (!isSpawning || !isRoaring)
             return;
 
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 1);
+
         while (HasEnemiesRemainingToSpawn())
         {
             if (!SpawnOneEnemy())

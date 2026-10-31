@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
-public class EnemyMeleeHitbox : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public class EnemyMeleeHitboxRelay : MonoBehaviour
 {
     [SerializeField] private EnemyController enemy;
 
@@ -9,6 +9,9 @@ public class EnemyMeleeHitbox : MonoBehaviour
     {
         if (enemy == null)
             enemy = GetComponentInParent<EnemyController>();
+
+        Collider hitbox = GetComponent<Collider>();
+        hitbox.isTrigger = true;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class AttackAnimationEventRelay : MonoBehaviour
@@ -6,13 +7,16 @@ public class AttackAnimationEventRelay : MonoBehaviour
     private AbilityController abilityController;
 
     private MovementController movement;
-
+    private PlayerStats stats;
 
 
     public void LaunchZeroMissilesFromAnimation()
     {
         Debug.Log("[Relay] Evento de lanzamiento recibido.", this);
         abilityController?.LaunchZeroMissilesFromAnimation();
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 0);
+
+
     }
     private void Awake()
     {
@@ -28,11 +32,13 @@ public class AttackAnimationEventRelay : MonoBehaviour
             Debug.LogError("No se encontró AttackController bajo Player.", this);
 
         movement = transform.root.GetComponent<MovementController>();
+        stats = GetComponent<PlayerStats>();
     }
 
     public void ActivateHitboxFromAnimation()
     {
         attackController?.ActivateHitboxFromAnimation();
+
     }
 
     // Este nombre debe coincidir con el Animation Event del clip.

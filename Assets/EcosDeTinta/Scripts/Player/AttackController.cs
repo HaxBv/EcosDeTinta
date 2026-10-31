@@ -164,6 +164,9 @@ public class AttackController : MonoBehaviour
         hitboxRoutine = StartCoroutine(MeleeHitboxRoutine());
 
         Debug.Log($"Collider melee activado: {hitbox.size}", this);
+
+
+
     }
 
     private IEnumerator MeleeHitboxRoutine()

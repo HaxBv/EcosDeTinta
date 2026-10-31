@@ -1,9 +1,15 @@
-using System;
 using Sirenix.OdinInspector;
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    [Header("Daño recibido")]
+    [SerializeField] private SpriteRenderer damageSpriteRenderer;
+    [SerializeField, Min(0f)] private float damageImmunityDuration = 1.5f;
+    [SerializeField, Min(0f)] private float redFlashDuration = 0.2f;
+
     public FormData CurrentForm { get; private set; }
 
     [ShowInInspector, ReadOnly, FoldoutGroup("Valores activos")]
@@ -57,10 +63,41 @@ public class PlayerStats : MonoBehaviour
         MaxStamina > 0f ? CurrentStamina / MaxStamina : 0f;
 
     public bool IsDead => CurrentForm != null && CurrentHealth <= 0f;
+    public bool IsDamageImmune => Time.time < nextDamageAllowedTime;
 
     public event Action<float, float> HealthChanged;
     public event Action<float, Vector3> DamageTaken;
     public event Action Died;
+
+    private Color originalSpriteColor = Color.white;
+    private float nextDamageAllowedTime;
+    private Coroutine damageFlashRoutine;
+
+    private void Awake()
+    {
+        if (damageSpriteRenderer == null)
+            damageSpriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+
+        if (damageSpriteRenderer != null)
+            originalSpriteColor = damageSpriteRenderer.color;
+        else
+            Debug.LogWarning(
+                "PlayerStats no encontró un SpriteRenderer para el destello de daño.",
+                this
+            );
+    }
+
+    private void OnDisable()
+    {
+        if (damageFlashRoutine != null)
+        {
+            StopCoroutine(damageFlashRoutine);
+            damageFlashRoutine = null;
+        }
+
+        if (damageSpriteRenderer != null)
+            damageSpriteRenderer.color = originalSpriteColor;
+    }
 
     public void SetForm(FormData form)
     {
@@ -88,10 +125,15 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float damage, Vector3 attackerPosition)
     {
-        if (CurrentForm == null || IsDead || damage <= 0f)
+        if (CurrentForm == null ||
+            IsDead ||
+            damage <= 0f ||
+            IsDamageImmune)
+        {
             return;
+        }
 
-        // Defense se interpreta como porcentaje: 20 = reduce 20% del daño.
+        // Defense se interpreta como porcentaje: 20 reduce el daño un 20%.
         float defensePercent = Mathf.Clamp(Defense, 0f, 100f);
         float finalDamage = damage * (1f - defensePercent / 100f);
 
@@ -99,12 +141,47 @@ public class PlayerStats : MonoBehaviour
             return;
 
         CurrentHealth = Mathf.Max(0f, CurrentHealth - finalDamage);
+        nextDamageAllowedTime = Time.time + damageImmunityDuration;
+
+        StartDamageFlash();
 
         DamageTaken?.Invoke(finalDamage, attackerPosition);
         HealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
         if (CurrentHealth <= 0f)
             Died?.Invoke();
+    }
+
+    private void StartDamageFlash()
+    {
+        if (damageSpriteRenderer == null)
+            return;
+
+        if (damageFlashRoutine != null)
+            StopCoroutine(damageFlashRoutine);
+
+        damageFlashRoutine = StartCoroutine(DamageFlashRoutine());
+    }
+
+    private IEnumerator DamageFlashRoutine()
+    {
+        float duration = Mathf.Max(0.01f, redFlashDuration);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            damageSpriteRenderer.color = Color.Lerp(
+                originalSpriteColor,
+                Color.red,
+                elapsed / duration
+            );
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        damageSpriteRenderer.color = originalSpriteColor;
+        damageFlashRoutine = null;
     }
 
     public void Heal(float amount)
