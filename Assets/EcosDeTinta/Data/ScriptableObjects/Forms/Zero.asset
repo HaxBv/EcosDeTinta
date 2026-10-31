@@ -27,7 +27,8 @@ MonoBehaviour:
   speedAttack: 0.55
   attackBoxSize: {x: 3, y: 1, z: 3}
   attackOffset: {x: 2, y: -0.6, z: 0}
-  projectileSprite: {fileID: 0}
+  projectileSprite: {fileID: -6607481912129624618, guid: a896f694fbc9bd645bdc612dacd93e93, type: 3}
+  animatorProyectile: {fileID: 9100000, guid: 639ceeeccc7ce9243a82a3ee3a211901, type: 2}
   projectileSpeed: 10
   projectileLifetime: 3
   projectileColliderSize: {x: 0.5, y: 0.5, z: 0.5}

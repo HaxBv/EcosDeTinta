@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FormData", menuName = "EcosDeTinta/FormData")]
@@ -37,7 +38,7 @@ public class FormData : ScriptableObject
     [Header("Ataque a distancia")]
     [ShowIf(nameof(IsRanged))]
     [SerializeField] private Sprite projectileSprite;
-
+    [SerializeField] private RuntimeAnimatorController animatorProyectile;
     [ShowIf(nameof(IsRanged))]
     [SerializeField] private float projectileSpeed = 10f;
 
@@ -73,6 +74,8 @@ public class FormData : ScriptableObject
     public Vector3 AttackOffset => attackOffset;
 
     public Sprite ProjectileSprite => projectileSprite;
+
+    public RuntimeAnimatorController AnimatorProyectile => animatorProyectile;
     public float ProjectileSpeed => projectileSpeed;
     public float ProjectileLifetime => projectileLifetime;
     public Vector3 ProjectileColliderSize => projectileColliderSize;

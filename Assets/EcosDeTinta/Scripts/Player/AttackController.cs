@@ -205,7 +205,7 @@ public class AttackController : MonoBehaviour
             visualObject.transform.rotation = playerSpriteRenderer.transform.rotation;
 
         SpriteRenderer projectileRenderer =
-            visualObject.AddComponent<SpriteRenderer>();
+    visualObject.AddComponent<SpriteRenderer>();
 
         projectileRenderer.sprite = form.ProjectileSprite;
         projectileRenderer.flipX = movement.FacingDirection < 0;
@@ -217,6 +217,18 @@ public class AttackController : MonoBehaviour
 
             projectileRenderer.sortingOrder =
                 playerSpriteRenderer.sortingOrder + 1;
+        }
+
+        // Añade el Animator al mismo objeto que tiene el SpriteRenderer.
+        if (form.AnimatorProyectile != null)
+        {
+            Animator projectileAnimator =
+                visualObject.AddComponent<Animator>();
+
+            projectileAnimator.runtimeAnimatorController =
+                form.AnimatorProyectile;
+
+            projectileAnimator.applyRootMotion = false;
         }
 
         PlayerProjectile projectile =
