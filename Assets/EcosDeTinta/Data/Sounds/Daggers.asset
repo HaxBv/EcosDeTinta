@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff958dfc9d1d08446b876ab96a23b3da, type: 3}
-  m_Name: Chomp
+  m_Name: Daggers
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
-  clip: {fileID: 8300000, guid: 341147cfa1e34c844975bde757186916, type: 3}
-  volume: 0.151
+  clip: {fileID: 8300000, guid: e4168904a00b9eb4aa5122e4853e54bd, type: 3}
+  volume: 0.643

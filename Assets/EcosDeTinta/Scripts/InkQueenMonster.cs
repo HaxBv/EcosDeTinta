@@ -215,7 +215,6 @@ public class InkQueenMonster : MonoBehaviour
         if (!isSpawning || !isRoaring)
             return;
 
-        SoundManager.Instance.PlaySFX(SoundType.SFX, 1);
 
         while (HasEnemiesRemainingToSpawn())
         {
@@ -226,7 +225,11 @@ public class InkQueenMonster : MonoBehaviour
         if (!HasEnemiesRemainingToSpawn())
            waitingForWaveClear = waitForSummonedEnemiesToDie && !HasEnemiesRemainingToSpawn();
     }
+    public void PlayAudioRoar()
+    {
 
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 1);
+    }
     // Animation Event al final del clip Roar.
     public void FinishRoarAnimation()
     {

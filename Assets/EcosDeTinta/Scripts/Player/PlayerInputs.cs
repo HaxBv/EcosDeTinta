@@ -32,6 +32,8 @@ public class PlayerInputs : MonoBehaviour
         inputs.Player.Attack.performed += OnAttack;
         inputs.Player.Ability.performed += OnAbility;
 
+       
+
         inputs.Player.Enable();
     }
 
@@ -47,6 +49,7 @@ public class PlayerInputs : MonoBehaviour
 
         inputs.Player.Disable();
     }
+
 
     private void OnDestroy()
     {

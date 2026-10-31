@@ -209,6 +209,7 @@ public class AbilityController : MonoBehaviour
         inkmanHammerHitbox.transform.localPosition =
             GetHitboxPositionForFacing(inkmanHammerBaseLocalPosition);
 
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 6);
         inkmanHammerHitbox.enabled = true;
         if (inkmanImpulseSource != null)
         {
@@ -388,6 +389,7 @@ public class AbilityController : MonoBehaviour
             );
             return;
         }
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 7);
 
         bool shadowOutOfControl =
             outOfControlManager != null &&

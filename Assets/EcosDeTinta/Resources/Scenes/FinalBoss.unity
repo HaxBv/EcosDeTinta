@@ -673,15 +673,21 @@ MonoBehaviour:
   - waveName: Esbirros
     enemyGroups:
     - prefab: {fileID: 6052419099007553917, guid: 55ddb8c93dda59c4e9fe354d4a5b567e, type: 3}
-      amount: 8
+      amount: 4
+    - prefab: {fileID: 6052419099007553917, guid: 72a42d4f7ae0935408ad4d5cb15c6f8d, type: 3}
+      amount: 2
   - waveName: Enjambre
     enemyGroups:
     - prefab: {fileID: 6052419099007553917, guid: 72a42d4f7ae0935408ad4d5cb15c6f8d, type: 3}
-      amount: 10
+      amount: 4
+    - prefab: {fileID: 1025551366562210812, guid: 23aead792011e984fad7724ddd202b5e, type: 3}
+      amount: 1
   - waveName: Muros andantes
     enemyGroups:
     - prefab: {fileID: 1025551366562210812, guid: 23aead792011e984fad7724ddd202b5e, type: 3}
-      amount: 6
+      amount: 2
+    - prefab: {fileID: 6052419099007553917, guid: 55ddb8c93dda59c4e9fe354d4a5b567e, type: 3}
+      amount: 4
   - waveName: Apocalipsis
     enemyGroups:
     - prefab: {fileID: 1025551366562210812, guid: 23aead792011e984fad7724ddd202b5e, type: 3}
@@ -697,7 +703,7 @@ MonoBehaviour:
   - {fileID: 1150879081}
   - {fileID: 1464651527}
   startOnPlay: 0
-  minRoarInterval: 12
+  minRoarInterval: 13.5
   maxRoarInterval: 15
   onAllWavesCleared:
     m_PersistentCalls:

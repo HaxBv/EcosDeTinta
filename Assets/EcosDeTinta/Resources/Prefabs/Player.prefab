@@ -606,7 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c976e8e6c949594c854a37bab95c457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilityController
-  abilityCooldown: 2
+  abilityCooldown: 2.5
   targetLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -630,7 +630,7 @@ MonoBehaviour:
   outOfControlShadowSplitAngle: 65
   maximwolfAbilityHitbox: {fileID: 2879437330303067641}
   maximwolfDamageMultiplier: 1.5
-  maximwolfHealPerEnemy: 15
+  maximwolfHealPerEnemy: 10
   maximwolfMaxHealPerUse: 50
   maximwolfHitboxActiveTime: 0.25
   maximwolfStunDuration: 1.5
