@@ -10,6 +10,15 @@ public class EnemyController : MonoBehaviour
 
     private static readonly int AttackHash = Animator.StringToHash("Attack");
     private static readonly int WalkHash = Animator.StringToHash("Walk");
+    [Header("Tipo de enemigo")]
+    [SerializeField] private bool isFlying;
+    [SerializeField] private bool isRangedAttacker;
+
+    [Header("Proyectil a distancia")]
+    [SerializeField] private EnemyProjectile projectilePrefab;
+    [SerializeField] private Transform projectileSpawnPoint;
+
+    public bool IsFlying => isFlying;
 
     [Header("Ataque")]
     [SerializeField] private AttackType attackType;
@@ -77,6 +86,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnEnable()
     {
+        body.useGravity = !isFlying;
         currentHealth = maxHealth;
 
         isDead = false;
@@ -110,11 +120,20 @@ public class EnemyController : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
 
-        body.isKinematic = false;
-        body.useGravity = true;
+        if (body == null)
+        {
+            Debug.LogError(
+                $"{name} necesita un Rigidbody en el mismo objeto que EnemyController.",
+                this
+            );
+            enabled = false;
+            return;
+        }
 
+        body.isKinematic = false;
+        body.useGravity = !isFlying;
         body.constraints = RigidbodyConstraints.FreezeRotationX
-                        | RigidbodyConstraints.FreezeRotationZ;
+                         | RigidbodyConstraints.FreezeRotationZ;
 
         initialRotation = transform.rotation;
         targetRotation = initialRotation;
@@ -304,19 +323,27 @@ public class EnemyController : MonoBehaviour
     public void RangedAttackFromAnimation()
     {
         if (isDead || isStunned || !isAttacking ||
-            attackType != AttackType.Ranged || player == null)
+            !isRangedAttacker || player == null)
+        {
             return;
+        }
 
-        PlayerStats playerStats = player.GetComponentInParent<PlayerStats>();
-
-        if (playerStats == null)
+        if (projectilePrefab == null || projectileSpawnPoint == null)
+        {
+            Debug.LogError(
+                $"Asigna el prefab y el punto de lanzamiento del proyectil en {name}.",
+                this
+            );
             return;
+        }
 
-        playerStats.TakeDamage(attackDamage, transform.position);
+        EnemyProjectile projectile = Instantiate(
+            projectilePrefab,
+            projectileSpawnPoint.position,
+            projectileSpawnPoint.rotation
+        );
 
-        Collider playerCollider = player.GetComponentInChildren<Collider>();
-        if (playerCollider != null)
-            TargetHit?.Invoke(playerCollider, attackDamage);
+        projectile.Launch(player);
     }
 
     // Animation Event al terminar la animación.
@@ -359,6 +386,8 @@ public class EnemyController : MonoBehaviour
             Die();
             return;
         }
+
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 4);
 
         // Los golpes repetidos durante el stun no reinician la reacción.
         if (!applyHitReaction)

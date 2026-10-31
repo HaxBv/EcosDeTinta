@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private Transform player;
     [SerializeField] private ObjectPooling enemyPool;
+    [Header("Enemigos voladores")]
+    [SerializeField, Min(0f)] private float flyingSpawnHeight = 2f;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject fastPrefab;
@@ -21,9 +23,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject tankPrefab;
 
     [Header("Cantidad en esta escena")]
-    [Min(0)][SerializeField] private int fastCount = 4;
-    [Min(0)][SerializeField] private int flyerCount = 3;
-    [Min(0)][SerializeField] private int tankCount = 2;
+    [SerializeField] private int fastCount = 4;
+    [SerializeField] private int flyerCount = 3;
+    [SerializeField] private int tankCount = 2;
 
     [Header("Desbloqueo desde que empieza esta escena")]
     [Min(0f)][SerializeField] private float flyerUnlockTime = 10f;
@@ -34,8 +36,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform[] rightSpawnPoints = new Transform[2];
 
     [Header("Intervalo entre apariciones")]
-    [Min(0.1f)][SerializeField] private float minSpawnInterval = 2f;
-    [Min(0.1f)][SerializeField] private float maxSpawnInterval = 4f;
+    [SerializeField] private float minSpawnInterval = 2f;
+    [SerializeField] private float maxSpawnInterval = 4f;
 
     [Header("Al derrotar a todos los enemigos de esta escena")]
     [SerializeField] private UnityEvent onAllEnemiesDefeated;
@@ -199,7 +201,15 @@ public class EnemySpawner : MonoBehaviour
             enemyPool.ReturnObject(enemyObject);
             return false;
         }
+        Vector3 spawnPosition = spawnPoint.position;
 
+        if (enemy.IsFlying)
+            spawnPosition += Vector3.up * flyingSpawnHeight;
+
+        enemyObject.transform.SetPositionAndRotation(
+            spawnPosition,
+            spawnPoint.rotation
+        );
         enemy.ConfigureForSpawn(player, enemyPool);
         enemy.ReturnedToPool += OnEnemyReturnedToPool;
         activeEnemies.Add(enemy);

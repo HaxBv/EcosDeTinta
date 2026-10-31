@@ -6,14 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/EcosDeTinta/Resources/Scenes/FinalBoss.unity
-    guid: a05f1e262eecf8544a018c3b66860445
+    path: Assets/EcosDeTinta/Resources/Scenes/Menu.unity
+    guid: 7cbea1d117444e64b82cc4a7ae65718c
   - enabled: 1
     path: Assets/EcosDeTinta/Resources/Scenes/Level1.unity
     guid: a56f430a4ec911341b43a9732134de73
   - enabled: 1
     path: Assets/EcosDeTinta/Resources/Scenes/Level2.unity
     guid: bc5a1af9d255e80419a873418050f7ed
+  - enabled: 1
+    path: Assets/EcosDeTinta/Resources/Scenes/FinalBoss.unity
+    guid: a05f1e262eecf8544a018c3b66860445
+  - enabled: 1
+    path: Assets/EcosDeTinta/Resources/Scenes/GameOver.unity
+    guid: 90e0ffa6dafa22d4b887ef6152aa8f97
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

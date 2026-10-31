@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RocketLauncher
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
   clip: {fileID: 8300000, guid: e189f3ecb583dbe43a00b21a71d0b783, type: 3}
-  volume: 0.217
+  volume: 0.11

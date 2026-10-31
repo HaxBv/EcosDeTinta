@@ -65,7 +65,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2544169581288303380}
   - component: {fileID: 7588196833656094427}
-  - component: {fileID: 6156251210210783103}
+  - component: {fileID: 7179780909104282478}
   m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
@@ -105,11 +105,11 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6156251210210783103
+--- !u!114 &7179780909104282478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,9 +118,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3926663862211653413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d36d0571b359b48b9ab4ac09e92612, type: 3}
+  m_Script: {fileID: 11500000, guid: bf9f318162817ab4c8728748f767c5de, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AttackAnimationEventRelay
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMeleeHitboxRelay
+  enemy: {fileID: 2068788132420262986}
 --- !u!1 &5556837377278579513
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,9 @@ public class ScenesManager : MonoBehaviour
     [SerializeField] private string nextSceneAfterVictory;
 
     private bool levelVictoryStarted;
+
+
+    private const string LastLevelKey = "LastLevelBeforeGameOver";
     private void Awake()
     {
         if (instance == null)
@@ -41,24 +44,24 @@ public class ScenesManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        
 
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+      
 
     }
     public void Play()
     {
         Debug.Log("Play");
-        StartCoroutine(SceneLoad("2D"));
+        SceneManager.LoadScene("Level1");
     }
     public void YouWon()
     {
         Debug.Log("Ganaste");
-        StartCoroutine(SceneLoad("Win"));
+       SceneManager.LoadScene("Win");
     }
     public void Quit()
     {
@@ -68,19 +71,26 @@ public class ScenesManager : MonoBehaviour
 
     public void GameOver()
     {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene != "GameOver")
+        {
+            PlayerPrefs.SetString(LastLevelKey, currentScene);
+            PlayerPrefs.Save();
+        }
+
         SceneManager.LoadScene("GameOver");
     }
- 
-    
-    public IEnumerator SceneLoad(string scene)
+
+
+    public void RetryLevel()
     {
-        FadeAnim.SetTrigger("Fade");
+        string levelToLoad = PlayerPrefs.GetString(LastLevelKey, "Level1");
 
-        yield return new WaitForSeconds(fadeDuration);
-        SceneManager.LoadScene(scene);
+        if (string.IsNullOrEmpty(levelToLoad) || levelToLoad == "GameOver")
+            levelToLoad = "Level1";
 
-
-
+        SceneManager.LoadScene(levelToLoad);
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -112,7 +122,7 @@ public class ScenesManager : MonoBehaviour
             yield break;
         }
 
-        yield return SceneLoad(nextSceneAfterVictory);
+        SceneManager.LoadScene(nextSceneAfterVictory);
     }
 
 }

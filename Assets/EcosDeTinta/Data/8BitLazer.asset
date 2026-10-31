@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 8BitLazer
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
   clip: {fileID: 8300000, guid: 039866f3c9639b746b23106e3a2ea809, type: 3}
-  volume: 0.138
+  volume: 0.14

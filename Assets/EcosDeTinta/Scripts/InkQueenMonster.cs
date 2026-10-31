@@ -50,7 +50,8 @@ public class InkQueenMonster : MonoBehaviour
     private bool isRoaring;
     private bool waitingForWaveClear;
     private Coroutine roarRoutine;
-
+    [Header("Enemigos voladores")]
+    [SerializeField, Min(0f)] private float flyingSpawnHeight = 2f;
     private void Start()
     {
         if (player == null)
@@ -231,19 +232,18 @@ public class InkQueenMonster : MonoBehaviour
     {
         isRoaring = false;
 
+        if (!isSpawning)
+            return;
+
         if (waitingForWaveClear)
         {
-            if (activeEnemies.Count == 0)
-                AdvanceToNextWave();
-
+            TryAdvanceAfterQueenWave();
             return;
         }
 
-        // Si no se pudieron crear todos, programa otro rugido para intentarlo.
         if (HasEnemiesRemainingToSpawn())
             ScheduleNextRoar();
     }
-
     private bool SpawnOneEnemy()
     {
         Wave wave = waves[currentWaveIndex];
@@ -262,9 +262,6 @@ public class InkQueenMonster : MonoBehaviour
             false
         );
 
-        if (enemyObject == null)
-            return false;
-
         EnemyController enemy = enemyObject.GetComponent<EnemyController>();
 
         if (enemy == null)
@@ -278,6 +275,16 @@ public class InkQueenMonster : MonoBehaviour
             remainingByGroup[groupIndex] = 0;
             return true;
         }
+
+        Vector3 spawnPosition = spawnPoint.position;
+
+        if (enemy.IsFlying)
+            spawnPosition += Vector3.up * flyingSpawnHeight;
+
+        enemyObject.transform.SetPositionAndRotation(
+            spawnPosition,
+            spawnPoint.rotation
+        );
 
         enemy.ConfigureForSpawn(player, enemyPool);
         enemy.ReturnedToPool += OnEnemyReturnedToPool;
@@ -359,7 +366,18 @@ public class InkQueenMonster : MonoBehaviour
 
         return validPoints;
     }
+    private void TryAdvanceAfterQueenWave()
+    {
+        if (!isSpawning ||
+            !waitingForWaveClear ||
+            activeEnemies.Count > 0)
+        {
+            return;
+        }
 
+        waitingForWaveClear = false;
+        AdvanceToNextWave();
+    }
     private void OnEnemyReturnedToPool(EnemyController enemy)
     {
         if (enemy == null)

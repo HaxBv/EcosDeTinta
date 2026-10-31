@@ -148,6 +148,8 @@ public class PlayerStats : MonoBehaviour
         DamageTaken?.Invoke(finalDamage, attackerPosition);
         HealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 3);
+
         if (CurrentHealth <= 0f)
             Died?.Invoke();
     }

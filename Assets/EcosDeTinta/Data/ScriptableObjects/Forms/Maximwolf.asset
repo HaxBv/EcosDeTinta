@@ -23,7 +23,7 @@ MonoBehaviour:
   sprintStaminaCostPerSecond: 12
   staminaRecoveryPerSecond: 14
   attackType: 0
-  attackDamage: 10
+  attackDamage: 13
   speedAttack: 0.65
   attackBoxSize: {x: 4, y: 1, z: 4}
   attackOffset: {x: 0, y: -0.6, z: 0}

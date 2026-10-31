@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Rugido
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
   clip: {fileID: 8300000, guid: 690b2a132f265dd4392bf57c07ca2bee, type: 3}
-  volume: 0.138
+  volume: 0.18

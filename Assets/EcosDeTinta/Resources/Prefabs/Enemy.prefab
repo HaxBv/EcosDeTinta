@@ -49,9 +49,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57698fdfdbe32148a3faf1dc1d862a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  isFlying: 0
+  isRangedAttacker: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
   attackType: 0
   attackDamage: 25
-  animator: {fileID: 0}
+  animator: {fileID: 1251493480674259422}
   meleeHitbox: {fileID: 2780075003847319662}
   meleeHitboxOffset: {x: 0.8, y: 0.5, z: 0}
   maxHealth: 150
@@ -266,7 +270,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.2, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
