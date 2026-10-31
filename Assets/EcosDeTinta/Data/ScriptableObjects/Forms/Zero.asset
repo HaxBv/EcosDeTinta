@@ -22,14 +22,14 @@ MonoBehaviour:
   maxStamina: 100
   sprintStaminaCostPerSecond: 32
   staminaRecoveryPerSecond: 60
-  attackType: 0
+  attackType: 1
   attackDamage: 7
   speedAttack: 0.55
   attackBoxSize: {x: 3, y: 1, z: 3}
   attackOffset: {x: 2, y: -0.6, z: 0}
   projectileSprite: {fileID: 0}
   projectileSpeed: 10
-  projectileLifetime: 2
+  projectileLifetime: 3
   projectileColliderSize: {x: 0.5, y: 0.5, z: 0.5}
   health: 130
   defense: 10
