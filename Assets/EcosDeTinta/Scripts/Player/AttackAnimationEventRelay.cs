@@ -32,15 +32,17 @@ public class AttackAnimationEventRelay : MonoBehaviour
             Debug.LogError("No se encontró AttackController bajo Player.", this);
 
         movement = transform.root.GetComponent<MovementController>();
-        stats = GetComponent<PlayerStats>();
+        stats = transform.root.GetComponent<PlayerStats>();
     }
 
     public void ActivateHitboxFromAnimation()
     {
+        attackController?.ActivateHitboxFromAnimation();
+
         switch (stats.CurrentForm.FormName)
         {
             case "Inkman":
-              //Nothing
+                //Nothing
                 break;
 
             case "Maximwolf":
@@ -58,6 +60,7 @@ public class AttackAnimationEventRelay : MonoBehaviour
             default:
                 break;
         }
+
     }
 
     // Este nombre debe coincidir con el Animation Event del clip.

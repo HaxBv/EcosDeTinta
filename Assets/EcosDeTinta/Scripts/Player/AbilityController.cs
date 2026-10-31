@@ -309,6 +309,8 @@ public class AbilityController : MonoBehaviour
         maximwolfAbilityHitbox.transform.localPosition =
             GetHitboxPositionForFacing(maximwolfHitboxBaseLocalPosition);
 
+        SoundManager.Instance.PlaySFX(SoundType.SFX, 5);
+
         maximwolfHitboxActive = true;
         maximwolfHitboxTimeLeft = maximwolfHitboxActiveTime;
         maximwolfAbilityHitbox.enabled = true;

@@ -21,7 +21,7 @@ public class InkQueenMonster : MonoBehaviour
         public string waveName;
         public EnemyGroup[] enemyGroups;
     }
-
+    [SerializeField] private bool waitForSummonedEnemiesToDie = true;
     [Header("Referencias")]
     [SerializeField] private Transform player;
     [SerializeField] private ObjectPooling enemyPool;
@@ -224,7 +224,7 @@ public class InkQueenMonster : MonoBehaviour
         }
 
         if (!HasEnemiesRemainingToSpawn())
-            waitingForWaveClear = true;
+           waitingForWaveClear = waitForSummonedEnemiesToDie && !HasEnemiesRemainingToSpawn();
     }
 
     // Animation Event al final del clip Roar.
@@ -235,14 +235,24 @@ public class InkQueenMonster : MonoBehaviour
         if (!isSpawning)
             return;
 
-        if (waitingForWaveClear)
+        if (!HasEnemiesRemainingToSpawn())
         {
-            TryAdvanceAfterQueenWave();
+            if (waitForSummonedEnemiesToDie)
+            {
+                waitingForWaveClear = true;
+                TryAdvanceAfterQueenWave();
+            }
+            else
+            {
+                waitingForWaveClear = false;
+                AdvanceToNextWave();
+            }
+
             return;
         }
 
-        if (HasEnemiesRemainingToSpawn())
-            ScheduleNextRoar();
+        waitingForWaveClear = false;
+        ScheduleNextRoar();
     }
     private bool SpawnOneEnemy()
     {

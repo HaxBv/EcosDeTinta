@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: hitEnemy
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
   clip: {fileID: 8300000, guid: de26436ce3ed30d4499f7b366d2a899e, type: 3}
-  volume: 0.33
+  volume: 0.572
